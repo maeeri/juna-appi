@@ -7,12 +7,16 @@ namespace JunaAppi
     class Program
     {
         //johanna taiteili tähän taas asciiartia
-        private static string AsciiArt = @"  
-   OO  Oo o o o...     ______________________ _________________
-  O      ____          |                    | |               |
- ][_^_||_| (   ***___  | TIIMI KUTOSEN UPEA | |  JUNA-APPI <3 |
-(__________|_[______]__|____________________|_|_______________|
-  0--0--0      0  0      0       0     0        0        0  ";
+        private static string AsciiArt = @"
+        TIIMI KUTOSEN JUNA-APPI
+  ___________   _______________________________________^__
+ ___   ___ |||  ___   ___   ___    ___ ___  |   __  ,----\
+|   | |   |||| |   | |   | |   |  |   |   | |  |  | |_____\
+|___| |___|||| |___| |___| |___|  | O | O | |  |  |        \
+           |||                    |___|___| |  |__|         )
+___________|||______________________________|______________/
+           |||                                        /--------
+-----------'''---------------------------------------' ";
 
         //Johanna miettii metodia, joka hakisi seuraavan pysäkin
         private static async Task GetNextStation()
