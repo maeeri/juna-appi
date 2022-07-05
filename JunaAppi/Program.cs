@@ -53,16 +53,16 @@ namespace JunaAppi
             //Console.WriteLine("Minkä aseman tiedot haluat?");
             //string asemaRaide = Console.ReadLine().ToLower();
             
-            string param = "latest/" + junaNumero;
+            string param = "latest/" + junaNumero + "?version=0";
             Juna juna = await TrainsApi.GetJuna(param);
-            /*
+            
             if (juna != null)
                 Console.WriteLine(juna.ToString());
             else
             {
                 Console.WriteLine("Ei löytynyt :(");
             }
-            */
+            
         }
 
             private static async Task MisMih()

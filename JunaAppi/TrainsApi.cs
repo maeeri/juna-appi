@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using APIHelpers;
 using System.Threading.Tasks;
+using System.Linq;
 
 namespace JunaAppi
 {
@@ -43,6 +44,14 @@ namespace JunaAppi
             Reitti reitti = await ApiHelper.RunAsync<Reitti>(url, urlParams);
 
             return reitti;
+        }
+
+        public static async Task<string> HaeAsemanNimi(string stationShortCode)
+        {
+            string urlParams = "/metadata/stations";
+            var asemat = await ApiHelper.RunAsync<Stations>(url, urlParams);
+
+            return default;
         }
     }
 }
