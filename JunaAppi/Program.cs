@@ -50,19 +50,21 @@ namespace JunaAppi
         {
             Console.WriteLine("Minkä junan (numero) lähtöraiteen haluat hakea?");
             int.TryParse(Console.ReadLine(), out int junaNumero);
-            //Console.WriteLine("Minkä aseman tiedot haluat?");
-            //string asemaRaide = Console.ReadLine().ToLower();
-            
-            string param = "latest/" + junaNumero + "?version=0";
-            Juna juna = await TrainsApi.GetJuna(param);
-            
-            if (juna != null)
-                Console.WriteLine(juna.ToString());
-            else
-            {
-                Console.WriteLine("Ei löytynyt :(");
-            }
-            
+            Console.WriteLine("Minkä aseman tiedot haluat?");
+            string asemaRaide = Console.ReadLine().ToLower();
+
+
+
+            //string param = "latest/" + junaNumero + "?version=0";
+            //Juna juna = await TrainsApi.GetJuna(param);
+
+            //if (juna != null)
+            //    Console.WriteLine(juna.timeTableRows);
+            //else
+            //{
+            //    Console.WriteLine("Ei löytynyt :(");
+            //}
+
         }
 
             private static async Task MisMih()

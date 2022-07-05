@@ -4,6 +4,7 @@ using System.Text;
 using APIHelpers;
 using System.Threading.Tasks;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 
 namespace JunaAppi
 {
@@ -22,7 +23,7 @@ namespace JunaAppi
         //johanna teki edellisen mallin mukaan
         public static async Task<TrainTrackingLatest> GetLocation(string input)
         {
-            string urlParams = $"train-tracking/latest/{input}"; //muutettu train-trackinginsta train-tracking/latest/ koska tämän perään voi sijoittaa {train_number} arvon
+            string urlParams = "train-tracking/" + input;
             TrainTrackingLatest response = await ApiHelper.RunAsync<TrainTrackingLatest>(url, urlParams);
             return response;
         }
@@ -46,10 +47,13 @@ namespace JunaAppi
             return reitti;
         }
 
+        //Mari-Annen metodi aseman nimihakuun, pahasti kesken
         public static async Task<string> HaeAsemanNimi(string stationShortCode)
         {
             string urlParams = "/metadata/stations";
-            var asemat = await ApiHelper.RunAsync<Stations>(url, urlParams);
+
+            Stations asema = await ApiHelper.RunAsync<Stations>(url, urlParams);
+            
 
             return default;
         }
