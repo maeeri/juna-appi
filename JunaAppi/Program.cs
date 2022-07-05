@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Threading.Tasks;
+
 namespace JunaProjekti
 {
     class Program
@@ -33,6 +35,11 @@ namespace JunaProjekti
                 default:
                     return true;
             }
+        }
+
+        private static async Task<string> FindTrack()
+        {
+
         }
     }
 }

@@ -5,6 +5,7 @@ using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using System.Text.Json;
 
+//HeathApp-esimerkistä otettu koodi
 namespace APIHelpers
 {
     public static class ApiHelper
@@ -18,6 +19,7 @@ namespace APIHelpers
             client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
             return client;
         }
+
 
         public static async Task<T> RunAsync<T>(string url, string urlParams)
         {
