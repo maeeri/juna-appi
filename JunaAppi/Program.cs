@@ -6,11 +6,21 @@ namespace JunaAppi
 {
     class Program
     {
-        //Johanna miettiin metodia, joka hakisi seuraavan pysäkin
-        private static void GetNextStation()
+        //johanna taiteili tähän taas asciiartia
+        private static string AsciiArt = @"  
+   OO  Oo o o o...     ______________________ _________________
+  O      ____          |                    | |               |
+ ][_^_||_| (   ***___  | TIIMI KUTOSEN UPEA | |  JUNA-APPI <3 |
+(__________|_[______]__|____________________|_|_______________|
+  0--0--0      0  0      0       0     0        0        0  ";
+
+        //Johanna miettii metodia, joka hakisi seuraavan pysäkin
+        private static async Task GetNextStation()
         {
-            //junan numeron perusteella, 
+            //junan numeron perusteella 
             Console.WriteLine("Annan junan numero");
+            string junanNumero = Console.ReadLine(); 
+            TrainTrackingLatest trackedTrain = await TrainsApi.GetLocation(junanNumero);
         }
         static void Main(string[] args)
         {
@@ -22,6 +32,14 @@ namespace JunaAppi
         }
         private static bool MainMenu()
         {
+            //johanna lisää vähän visuaalisuutta
+            Console.BackgroundColor = ConsoleColor.Red; //koska Aki toivoi <3
+            Console.Clear();
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.WriteLine(Environment.NewLine);
+            Console.WriteLine(AsciiArt);
+            Console.WriteLine(Environment.NewLine);
+            Console.ForegroundColor = ConsoleColor.Yellow;
             //Akin valikko
             Console.WriteLine("Vaihtoehtosi:\n1) Mistä-Mihin\n2) Ajoissa\n3) Seuraava Pysäkki\n4) Vaihtoraide\n5) Junan Palvelut\n6) Poistu");
             switch (Console.ReadLine())
@@ -32,6 +50,7 @@ namespace JunaAppi
                 case "2":
                     return true;
                 case "3":
+                    GetNextStation();
                     return true;
                 case "4":
                     FindTrack();

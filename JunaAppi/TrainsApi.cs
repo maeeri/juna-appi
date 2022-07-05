@@ -19,9 +19,9 @@ namespace JunaAppi
               
         }
         //johanna teki edellisen mallin mukaan
-        public static async Task<TrainTrackingLatest> GetLocation(string input)
+        public static async Task<TrainTrackingLatest> GetLocation(string junanNumero)
         {
-            string urlParams = $"train-tracking/latest/{input}"; //muutettu train-trackinginsta train-tracking/latest/ koska tämän perään voi sijoittaa {train_number} arvon
+            string urlParams = $"train-tracking/latest/{junanNumero}"; //muutettu train-trackinginsta train-tracking/latest/ koska tämän perään voi sijoittaa {train_number} arvon
             TrainTrackingLatest response = await ApiHelper.RunAsync<TrainTrackingLatest>(url, urlParams);
             return response;
         }
