@@ -3,7 +3,7 @@
 using System.Threading.Tasks;
 
 
-namespace JunaProjekti
+namespace JunaAppi
 {
     class Program
     {
@@ -51,7 +51,7 @@ namespace JunaProjekti
         } */
 
         private static async Task MisMih()
-        {
+        {//Akin Väserrykset
             while (true)
             {
                 try
@@ -65,7 +65,7 @@ namespace JunaProjekti
                     /*Console.WriteLine("Minä päivänä olet menossa?");
                     DateTime paiva = Convert.ToDateTime(Console.ReadLine());*/
 
-                    //Juna juna = await JunaApi.GetJuna(lähtö, saapuminen);
+                    Asemat asemat = await JunaAppi.GetAsemat(lähtö, saapuminen);
 
                     //if (juna == null)
                         Console.WriteLine("\nJunaa ei löydy");
