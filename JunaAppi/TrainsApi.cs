@@ -26,5 +26,13 @@ namespace JunaAppi
             return response;
         }
 
+        //Otetaan yhetyttä Apiin (Annan versio ryhmän avulla).
+        public static async Task<Vaunu> HaeJunanPalvelut(string input)
+        {
+            string urlParams = "compositions/" + input;
+            Vaunu response = await ApiHelper.RunAsync<Vaunu>(url, urlParams);
+            return response;
+        }
+
     }
 }
