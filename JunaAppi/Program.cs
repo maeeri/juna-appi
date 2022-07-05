@@ -1,8 +1,7 @@
 ﻿using System;
-<<<<<<< HEAD
-=======
+
 using System.Threading.Tasks;
->>>>>>> 9395d3448bcb5daf69d10357edc549ed2afc857e
+
 
 namespace JunaProjekti
 {
@@ -45,9 +44,9 @@ namespace JunaProjekti
             }
         }
 
-        private static async Task<string> FindTrack()
+        /* private static async Task<string> FindTrack()
         {
 
-        }
+        } */
     }
 }
