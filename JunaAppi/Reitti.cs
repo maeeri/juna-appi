@@ -6,7 +6,7 @@ namespace JunaAppi
 {
     class Reitti
     {
-        public class Rootobject
+        public class Reitinhaku
         {
             public Class1[] Property1 { get; set; }
         }

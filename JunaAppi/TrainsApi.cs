@@ -33,13 +33,16 @@ namespace JunaAppi
             Vaunu response = await ApiHelper.RunAsync<Vaunu>(url, urlParams);
             return response;
         }
-        public static async Task<Reitti> GetReitti(string lähtö, string saapuminen)
+
+
+        //Akin junan haku apista
+        public static async Task<Reitti> HaeReitti(string lähtö, string saapuminen)
         {
             string urlParams = "live-trains/station/" + lähtö + "/" + saapuminen;
 
-            Reitti response = await ApiHelper.RunAsync<Reitti>(url, urlParams);
+            Reitti tulos = await ApiHelper.RunAsync<Reitti>(url, urlParams);
 
-            return response;
+            return tulos;
         }
     }
 }

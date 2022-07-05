@@ -1,5 +1,4 @@
 ﻿using System;
-
 using System.Threading.Tasks;
 
 
@@ -35,6 +34,7 @@ namespace JunaAppi
                 case "3":
                     return true;
                 case "4":
+                    FindTrack();
                     return true;
                 case "5":
                     return true;
@@ -45,13 +45,28 @@ namespace JunaAppi
             }
         }
 
-        /* private static async Task<string> FindTrack()
+        //Mari-Annen metodi junalaiturien löytämiseen
+        private static async Task FindTrack()
         {
+            Console.WriteLine("Minkä junan (numero) lähtöraiteen haluat hakea?");
+            int.TryParse(Console.ReadLine(), out int junaNumero);
+            //Console.WriteLine("Minkä aseman tiedot haluat?");
+            //string asemaRaide = Console.ReadLine().ToLower();
+            
+            string param = "latest/" + junaNumero;
+            Juna juna = await TrainsApi.GetJuna(param);
+            /*
+            if (juna != null)
+                Console.WriteLine(juna.ToString());
+            else
+            {
+                Console.WriteLine("Ei löytynyt :(");
+            }
+            */
+        } 
 
-        } */
-
-        private static async Task MisMih()
-        {//Akin Väserrykset
+            private static async Task MisMih()
+            {//Akin Väserrykset
             while (true)
             {
                 try
@@ -65,21 +80,22 @@ namespace JunaAppi
                     /*Console.WriteLine("Minä päivänä olet menossa?");
                     DateTime paiva = Convert.ToDateTime(Console.ReadLine());*/
 
-                    Asemat asemat = await JunaAppi.GetAsemat(lähtö, saapuminen);
+                    Reitti asemat = await TrainsApi.HaeReitti(lähtö, saapuminen);
 
-                    //if (juna == null)
-                        Console.WriteLine("\nJunaa ei löydy");
+                    //if (asemat == null)
+                    //Console.WriteLine("\nJunaa ei löydy");
                     //else
-                       // PrintJunaData(juna);
+                    
                 }
                 catch (FormatException)
                 {
 
-                    Console.WriteLine("Please write the your answer in the format that is instructed (inside parantheses). Press enter and start again.");
+                    Console.WriteLine("-.-");
                     continue;
                 }
                 break;
             }
+
 
         }
     }
