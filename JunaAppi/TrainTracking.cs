@@ -19,4 +19,11 @@ public class TrainTrackingLatest
     public string trainNumber { get; set; }
     public string type { get; set; }
     public int version { get; set; }
+
+    //Johanna miettii metodia, joka hakisi seuraavan pysäkin
+    private static void GetNextStation()
+    {
+        //junan numeron perusteella, 
+        Console.WriteLine("Annan junan numero");
+    }
 }
