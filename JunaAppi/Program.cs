@@ -28,6 +28,7 @@ namespace JunaProjekti
             switch (Console.ReadLine())
             {
                 case "1":
+                    MisMih();
                     return true;
                 case "2":
                     return true;
@@ -48,5 +49,38 @@ namespace JunaProjekti
         {
 
         } */
+
+        private static async Task MisMih()
+        {
+            while (true)
+            {
+                try
+                {
+                    Console.WriteLine("Mistä olet Lähdössä");
+                    string lähtö = Console.ReadLine();
+
+                    Console.WriteLine("Minne olet Menossa");
+                    string saapuminen = Console.ReadLine();
+
+                    /*Console.WriteLine("Minä päivänä olet menossa?");
+                    DateTime paiva = Convert.ToDateTime(Console.ReadLine());*/
+
+                    //Juna juna = await JunaApi.GetJuna(lähtö, saapuminen);
+
+                    //if (juna == null)
+                        Console.WriteLine("\nJunaa ei löydy");
+                    //else
+                       // PrintJunaData(juna);
+                }
+                catch (FormatException)
+                {
+
+                    Console.WriteLine("Please write the your answer in the format that is instructed (inside parantheses). Press enter and start again.");
+                    continue;
+                }
+                break;
+            }
+
+        }
     }
 }
