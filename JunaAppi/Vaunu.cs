@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.Text;
 
 
-public class Rootobject
+public class JunanPalvelut
 {
-    public Class1[] Property1 { get; set; }
+    public Vaunu[] Property1 { get; set; }
 }
 
-public class Class1
+public class Vaunu
 {
     public string departureDate { get; set; }
     public Journeysection[] journeySections { get; set; }
