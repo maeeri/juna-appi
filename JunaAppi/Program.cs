@@ -63,7 +63,7 @@ namespace JunaAppi
                 Console.WriteLine("Ei löytynyt :(");
             }
             */
-        } 
+        }
 
             private static async Task MisMih()
             {//Akin Väserrykset
@@ -72,7 +72,7 @@ namespace JunaAppi
                 try
                 {
                     Console.WriteLine("Mistä olet Lähdössä");
-                    string lähtö = Console.ReadLine();
+                    string lahto = Console.ReadLine();
 
                     Console.WriteLine("Minne olet Menossa");
                     string saapuminen = Console.ReadLine();
@@ -80,9 +80,9 @@ namespace JunaAppi
                     /*Console.WriteLine("Minä päivänä olet menossa?");
                     DateTime paiva = Convert.ToDateTime(Console.ReadLine());*/
 
-                    Reitti asemat = await TrainsApi.HaeReitti(lähtö, saapuminen);
+                    Reitti reitti = await TrainsApi.HaeReitti(lahto, saapuminen);
 
-                    //if (asemat == null)
+                    //if (reitti == null)
                     //Console.WriteLine("\nJunaa ei löydy");
                     //else
                     

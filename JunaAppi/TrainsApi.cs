@@ -36,13 +36,13 @@ namespace JunaAppi
 
 
         //Akin junan haku apista
-        public static async Task<Reitti> HaeReitti(string lähtö, string saapuminen)
+        public static async Task<Reitti> HaeReitti(string lahto, string saapuminen)
         {
-            string urlParams = "live-trains/station/" + lähtö + "/" + saapuminen;
+            string urlParams = "live-trains/station/" + lahto + "/" + saapuminen;
 
-            Reitti tulos = await ApiHelper.RunAsync<Reitti>(url, urlParams);
+            Reitti reitti = await ApiHelper.RunAsync<Reitti>(url, urlParams);
 
-            return tulos;
+            return reitti;
         }
     }
 }

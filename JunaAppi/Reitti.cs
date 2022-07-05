@@ -4,7 +4,7 @@ using System.Text;
 
 namespace JunaAppi
 {
-    class Reitti
+     public class Reitti
     {
         public class Reitinhaku
         {
