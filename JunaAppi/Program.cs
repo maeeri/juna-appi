@@ -1,9 +1,19 @@
 ﻿using System;
+<<<<<<< HEAD
+=======
+using System.Threading.Tasks;
+>>>>>>> 9395d3448bcb5daf69d10357edc549ed2afc857e
+
 namespace JunaProjekti
 {
     class Program
     {
-        //Johanna laittoin tässä tällaisen kommentin
+        //Johanna miettiin metodia, joka hakisi seuraavan pysäkin
+        private static void GetNextStation()
+        {
+            //junan numeron perusteella, 
+            Console.WriteLine("Annan junan numero");
+        }
         static void Main(string[] args)
         {
             bool valikko = true;
@@ -33,6 +43,11 @@ namespace JunaProjekti
                 default:
                     return true;
             }
+        }
+
+        private static async Task<string> FindTrack()
+        {
+
         }
     }
 }
