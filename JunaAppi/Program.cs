@@ -37,9 +37,13 @@ namespace JunaProjekti
             }
         }
 
-        private static async Task<string> FindTrack()
+        //Mari-Annen metodi junalaiturien löytämiseen
+        private static async Task FindTrack()
         {
-
+            Console.WriteLine("Minkä junan (numero) lähtöraiteen haluat hakea?");
+            int.TryParse(Console.ReadLine(), out int junaNumero);
+            Console.WriteLine("Minkä aseman tiedot haluat?");
+            string asemaRaide = Console.ReadLine().ToLower();
         }
     }
 }

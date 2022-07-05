@@ -1,11 +1,11 @@
 ﻿using System;
 
-public class Junat
+public class Trains
 {
-    public Juna[] juna { get; set; }
+    public Train[] train { get; set; }
 }
 
-public class Juna
+public class Train
 {
     public bool cancelled { get; set; }
     public string commuterLineID { get; set; }
