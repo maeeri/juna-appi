@@ -1,17 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace JunaAppi
 {
-     public class Reitti
-    {
-        public class Reitinhaku
-        {
-            public Class1[] Property1 { get; set; }
-        }
-
-        public class Class1
+        public class Reitti
         {
             public int trainNumber { get; set; }
             public string departureDate { get; set; }
@@ -25,10 +16,10 @@ namespace JunaAppi
             public long version { get; set; }
             public string timetableType { get; set; }
             public DateTime timetableAcceptanceDate { get; set; }
-            public Timetablerow[] timeTableRows { get; set; }
+            public Timetablerow2[] timeTableRows { get; set; }
         }
 
-        public class Timetablerow
+        public class Timetablerow2
         {
             public string stationShortCode { get; set; }
             public int stationUICCode { get; set; }
@@ -42,4 +33,4 @@ namespace JunaAppi
         }
 
     }
-}
+
