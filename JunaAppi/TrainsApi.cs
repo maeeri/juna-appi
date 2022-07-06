@@ -31,9 +31,9 @@ namespace JunaAppi
         }
 
         //Otetaan yhetyttä Apiin (Annan versio ryhmän avulla).
-        public static async Task<Wagon> HaeJunanPalvelut(string date, int junanro)
-        { 
-            string urlParams = "compositions/" + date + "/" + junanro;
+        public static async Task<Wagon> HaeJunanPalvelut(string input)
+        {
+            string urlParams = "compositions/" + input;
             Wagon response = await ApiHelper.RunAsync<Wagon>(url, urlParams);
             return response;
         }
@@ -63,12 +63,17 @@ namespace JunaAppi
         {
             Station[] asemat = await GetStations();
             string response = null;
-            var asemanNimi = asemat.Where(x => x.stationShortCode == stationShortCode)
+            var asemanNimi = asemat
+                .Where(x => x.stationShortCode == stationShortCode)
                 .Select(x => x.stationName);
+
+            //koska voidaan olettaa, että yhdellä asemakoodilla saadaan tulokseksi yksi asema, haetaan aseman nimi foreach-lauseella sijoittaen se muuttujaan
             foreach (var asema in asemanNimi)
             {
                 response = asema;
             }
+
+            //jos aseman nimi ei ole null, palautetaan nimi, jo on, palautetaan viesti, ettei asemaa löytynyt
             return (response != null ? response : "Ei löytynyt :(");
         }
     }
