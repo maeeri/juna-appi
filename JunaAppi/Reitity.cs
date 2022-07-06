@@ -2,15 +2,15 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace JunaAppiLatest
+namespace JunaAppiReitit
 {
 
-    public class LatestTrain
+    public class Reittimys
     {
-        public TrainLatest[] Property1 { get; set; }
+        public ReittiLatest[] Property1 { get; set; }
     }
 
-    public class TrainLatest
+    public class ReittiLatest
     {
         public int trainNumber { get; set; }
         public string departureDate { get; set; }
@@ -38,29 +38,6 @@ namespace JunaAppiLatest
         public string commercialTrack { get; set; }
         public bool cancelled { get; set; }
         public DateTime scheduledTime { get; set; }
-        public DateTime actualTime { get; set; }
-        public int differenceInMinutes { get; set; }
-        public Caus[] causes { get; set; }
-        public Trainready trainReady { get; set; }
-        public DateTime liveEstimateTime { get; set; }
-        public string estimateSource { get; set; }
-    }
-
-    public class Trainready
-    {
-        public string source { get; set; }
-        public bool accepted { get; set; }
-        public DateTime timestamp { get; set; }
-    }
-
-    public class Caus
-    {
-        public string categoryCode { get; set; }
-        public string detailedCategoryCode { get; set; }
-        public string thirdCategoryCode { get; set; }
-        public int categoryCodeId { get; set; }
-        public int detailedCategoryCodeId { get; set; }
-        public int thirdCategoryCodeId { get; set; }
     }
 
 }

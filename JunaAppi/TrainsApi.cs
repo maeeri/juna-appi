@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Linq;
 using System.Net.Sockets;
 using System.Security.Cryptography.X509Certificates;
+using JunaAppiReitit;
 using JunaAppiLatest;
 
 namespace JunaAppi
@@ -42,11 +43,11 @@ namespace JunaAppi
 
 
         //Akin junan haku apista
-        public static async Task<Reitti> HaeReitti(string lahto, string saapuminen)
+        public static async Task<ReittiLatest[]> HaeReitti(string lahto, string saapuminen)
         {
             string urlParams = "live-trains/station/" + lahto + "/" + saapuminen;
 
-            Reitti reitti = await ApiHelper.RunAsync<Reitti>(url, urlParams);
+            ReittiLatest[] reitti = await ApiHelper.RunAsync<ReittiLatest[]>(url,urlParams);
 
             return reitti;
         }
@@ -61,10 +62,10 @@ namespace JunaAppi
         }
 
         //Mari-Annen tekemä muokkaus LatestTrain-olion hakuun
-        public static async Task<LatestTrain> GetTrainByNumber(string input)
+        public static async Task<LatestTrain[]> GetTrainByNumber(string input)
         {
-            string urlParams = "trains/latest/" + input;
-            LatestTrain response = await ApiHelper.RunAsync<LatestTrain>(url, urlParams);
+            string urlParams = "trains/" + input;
+            LatestTrain[] response = await ApiHelper.RunAsync<LatestTrain[]>(url, urlParams);
             return response;
         }
 
@@ -83,9 +84,7 @@ namespace JunaAppi
         {
             Station[] asemat = await GetStations();
             Station response;
-            while (true)
-            {
-                try
+            try
                 {
                     response = asemat.FirstOrDefault(x =>
                         x.stationName.Equals(stationName, StringComparison.OrdinalIgnoreCase));
@@ -103,7 +102,6 @@ namespace JunaAppi
                     Console.WriteLine("Asemaa ei löytynyt");
                     return default;
                 }
-            }
         }
     }
 }
