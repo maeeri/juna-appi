@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 using System.Linq;
 using System.Net.Sockets;
 using System.Security.Cryptography.X509Certificates;
-using JunaAppiReitit;
 using JunaAppiLatest;
 
 namespace JunaAppi
@@ -43,11 +42,11 @@ namespace JunaAppi
 
 
         //Akin junan haku apista
-        public static async Task<ReittiLatest[]> HaeReitti(string lahto, string saapuminen)
+        public static async Task<Reitti> HaeReitti(string lahto, string saapuminen)
         {
             string urlParams = "live-trains/station/" + lahto + "/" + saapuminen;
 
-            ReittiLatest[] reitti = await ApiHelper.RunAsync<ReittiLatest[]>(url,urlParams);
+            Reitti reitti = await ApiHelper.RunAsync<Reitti>(url, urlParams);
 
             return reitti;
         }
@@ -62,7 +61,7 @@ namespace JunaAppi
         }
 
         //Mari-Annen tekemä muokkaus LatestTrain-olion hakuun
-        public static async Task<LatestTrain[]> GetTrainByNumber(string input)
+        public static async Task<LatestTrain[]> GetTrainByNumberAsync(string input)
         {
             string urlParams = "trains/" + input;
             LatestTrain[] response = await ApiHelper.RunAsync<LatestTrain[]>(url, urlParams);
@@ -85,23 +84,24 @@ namespace JunaAppi
             Station[] asemat = await GetStations();
             Station response;
             try
-                {
-                    response = asemat.FirstOrDefault(x =>
-                        x.stationName.Equals(stationName, StringComparison.OrdinalIgnoreCase));
+            {
+                response = asemat.FirstOrDefault(x =>
+                    x.stationName.Equals(stationName, StringComparison.OrdinalIgnoreCase));
+                if (response != null)
                     return response;
-                }
-                catch (NullReferenceException e)
+                else
                 {
                     stationName += " asema";
                     response = asemat.FirstOrDefault(x =>
                         x.stationName.Equals(stationName, StringComparison.OrdinalIgnoreCase));
                     return response;
                 }
-                catch (Exception e)
-                {
-                    Console.WriteLine("Asemaa ei löytynyt");
-                    return default;
-                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Asemaa ei löytynyt");
+                return default;
+            }
         }
     }
 }
