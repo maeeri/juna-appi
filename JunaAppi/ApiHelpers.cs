@@ -5,21 +5,26 @@ using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using System.Text.Json;
 
-//HeathApp-esimerkistä otettu koodi
+//HealthApista otettua koodia ja tässä ns. korjattu versio
 namespace APIHelpers
 {
     public static class ApiHelper
     {
-
         // create HTTP client
         private static HttpClient GetHttpClient(string url)
         {
-            var client = new HttpClient { BaseAddress = new Uri(url) };
+            // gzip decompression
+            HttpClientHandler handler = new HttpClientHandler()
+            {
+                AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate
+            };
+            var client = new HttpClient(handler);
+            client.BaseAddress = new Uri(url);
             client.DefaultRequestHeaders.Accept.Clear();
             client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            client.DefaultRequestHeaders.AcceptEncoding.TryParseAdd("gzip");
             return client;
         }
-
 
         public static async Task<T> RunAsync<T>(string url, string urlParams)
         {

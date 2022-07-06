@@ -22,7 +22,7 @@ _(___/____(____/____/___|/____/____|_____/____|_/________/________ _/_ __
 |___| |___|||| |___| |___| |___|  | O | O | |  |  |        \
            |||                    |___|___| |  |__|         )
 ___________|||______________________________|______________/
-           |||                                        /--------
+           ||| TIIMI KUTONEN                             /--------
 -----------'''---------------------------------------' ";
 
         //Johanna miettii metodia, joka hakisi seuraavan pysäkin
@@ -32,6 +32,7 @@ ___________|||______________________________|______________/
             Console.WriteLine("Annan junan numero");
             string junanNumero = Console.ReadLine(); 
             TrainTrackingLatest trackedTrain = await TrainsApi.GetLocation(junanNumero);
+            
         }
         static void Main(string[] args)
         {
