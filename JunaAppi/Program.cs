@@ -33,12 +33,8 @@ ___________|||______________________________|______________/
            ||| TIIMI KUTONEN                             /--------
 -----------'''---------------------------------------' ";
 
-<<<<<<< HEAD
         //Johanna miettii metodia, joka hakisi seuraavan pysäkin
-=======
 
-        //Johanna miettiin metodia, joka hakisi seuraavan pysäkin
->>>>>>> b7ed01be549713335ddf39bd2612ef8c45945d32
         private static async Task GetNextStation()
         {
             //junan numeron perusteella, 
@@ -48,9 +44,6 @@ ___________|||______________________________|______________/
             string junanNumero = Console.ReadLine();
             TrainTrackingNext[] trainTrackingList = await TrainsApi.GetLocation(lähtöPäivä, junanNumero);
             Console.WriteLine(trainTrackingList[0].nextStation); //tää toimii nyt, mutta palauttaa vain sen lyhenteen!
-
-
-            
 
 
         }
