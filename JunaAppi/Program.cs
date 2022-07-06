@@ -6,6 +6,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using APIHelpers;
+using JunaAppiLatest;
 
 
 namespace JunaAppi
@@ -98,11 +99,12 @@ ___________|||______________________________|______________/
             //Console.WriteLine("Minkä aseman tiedot haluat?");
             //string asemaRaide = Console.ReadLine().ToLower();
 
-            string param = junaNumero.ToString();
-            Juna juna = await TrainsApi.GetJuna(param);
+            string tanaan = DateTime.Today.ToString("yyyy-MM-dd");
+            string param = $"{tanaan}/{junaNumero.ToString()}/";
+            LatestTrain juna = await TrainsApi.GetTrainByNumber(param);
 
             if (juna != null)
-                Console.WriteLine(juna.departureDate);
+                Console.WriteLine(juna.Property1[0].trainType);
             else
             {
                 Console.WriteLine("Ei löytynyt :(");

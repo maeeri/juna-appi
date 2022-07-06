@@ -4,7 +4,6 @@ using System.Text;
 
 namespace JunaAppiLatest
 {
-
     public class LatestTrain
     {
         public TrainLatest[] Property1 { get; set; }
@@ -58,9 +57,8 @@ namespace JunaAppiLatest
         public string categoryCode { get; set; }
         public string detailedCategoryCode { get; set; }
         public string thirdCategoryCode { get; set; }
-        public int categoryCodeId { get; set; }
         public int detailedCategoryCodeId { get; set; }
+        public int categoryCodeId { get; set; }
         public int thirdCategoryCodeId { get; set; }
     }
-
 }
