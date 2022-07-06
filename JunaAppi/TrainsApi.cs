@@ -59,6 +59,7 @@ namespace JunaAppi
             return response;
         }
 
+        //Mari-Annen tekemä muokkaus LatestTrain-olion hakuun
         public static async Task<LatestTrain> GetTrainByNumber(string input)
         {
             string urlParams = "trains/latest/" + input;
