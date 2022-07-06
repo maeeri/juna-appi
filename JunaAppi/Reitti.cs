@@ -1,6 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using APIHelpers;
+using System.Threading.Tasks;
+using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 
 namespace JunaAppi
 {

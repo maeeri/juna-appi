@@ -85,8 +85,8 @@ namespace JunaAppi
                     if (reitti == null)
                     Console.WriteLine("\nJunaa ei löydy");
 
-                    /*else
-                        Rejtti(reitti);*/
+                    else
+                        Rejtti(reitti);
                 }
                 catch (FormatException)
                 {
@@ -98,13 +98,12 @@ namespace JunaAppi
             }
 
             }
-            /*private static void Rejtti(Reitti rejtti)
+            private static void Rejtti(Reitti rejtti)
             {
             Console.WriteLine("  Reittisi tiedot:");
             Console.WriteLine($"  Reitti lähtö: {rejtti.operatorShortCode}");
-            Console.WriteLine($"  Reitti saapuminen: {rejtti.operatorShortCode}");
             Console.WriteLine($"  Reitti lähtöaika: {rejtti.departureDate}");
             Console.WriteLine($"  Reitti carbohydrates: {rejtti.timeTableRows.countryCode}");
-         }*/
+         }
     }
 }
