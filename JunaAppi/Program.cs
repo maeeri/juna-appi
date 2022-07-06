@@ -37,9 +37,12 @@ ___________|||______________________________|______________/
         private static async Task GetNextStation()
         {
             //junan numeron perusteella, 
+            Console.WriteLine("Syötä päivämäärä");
+            string lähtöPäivä = Console.ReadLine();
             Console.WriteLine("Annan junan numero");
             string junanNumero = Console.ReadLine(); 
-            TrainTrackingLatest trackedTrain = await TrainsApi.GetLocation(junanNumero);
+            TrainTrackingLatest trackedTrain = await TrainsApi.GetLocation(lähtöPäivä, junanNumero);
+            //var seuraavaAsema = trackedTrain.
         }
         static void Main(string[] args)
         {
