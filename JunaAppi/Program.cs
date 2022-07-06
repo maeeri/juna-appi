@@ -33,16 +33,19 @@ ___________|||______________________________|______________/
            ||| TIIMI KUTONEN                             /--------
 -----------'''---------------------------------------' ";
 
-        //Johanna miettiin metodia, joka hakisi seuraavan pysäkin
+        //Johanna miettii metodia, joka hakisi seuraavan pysäkin
+
         private static async Task GetNextStation()
         {
             //junan numeron perusteella, 
-            Console.WriteLine("Syötä päivämäärä");
-            string lähtöPäivä = Console.ReadLine();
+            DateTime omaDateTime = DateTime.Now; //haussa pitää olla muodossa yyyy-MM-dd eikä kellonaikaa
+            string lähtöPäivä = omaDateTime.ToUniversalTime().ToString("yyyy-MM-dd");
             Console.WriteLine("Annan junan numero");
-            string junanNumero = Console.ReadLine(); 
-            TrainTrackingLatest trackedTrain = await TrainsApi.GetLocation(lähtöPäivä, junanNumero);
-            //var seuraavaAsema = trackedTrain.
+            string junanNumero = Console.ReadLine();
+            TrainTrackingNext[] trainTrackingList = await TrainsApi.GetLocation(lähtöPäivä, junanNumero);
+            Console.WriteLine(trainTrackingList[0].nextStation); //tää toimii nyt, mutta palauttaa vain sen lyhenteen!
+
+
         }
         static void Main(string[] args)
         {
