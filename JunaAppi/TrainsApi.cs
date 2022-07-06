@@ -4,6 +4,7 @@ using System.Text;
 using APIHelpers;
 using System.Threading.Tasks;
 using System.Linq;
+using System.Net.Sockets;
 using System.Security.Cryptography.X509Certificates;
 
 namespace JunaAppi
@@ -30,10 +31,10 @@ namespace JunaAppi
         }
 
         //Otetaan yhetyttä Apiin (Annan versio ryhmän avulla).
-        public static async Task<Vaunu> HaeJunanPalvelut(string input)
+        public static async Task<Wagon> HaeJunanPalvelut(string input)
         {
             string urlParams = "compositions/" + input;
-            Vaunu response = await ApiHelper.RunAsync<Vaunu>(url, urlParams);
+            Wagon response = await ApiHelper.RunAsync<Wagon>(url, urlParams);
             return response;
         }
 
@@ -48,15 +49,32 @@ namespace JunaAppi
             return reitti;
         }
 
-        //Mari-Annen metodi aseman nimihakuun, pahasti kesken
+        //Materiaalista kopioitu GetStations-metodi
+        public static async Task<Station[]> GetStations()
+        {
+            string urlParams = "metadata/stations";
+
+            var response = await ApiHelper.RunAsync<Station[]>(url, urlParams);
+            return response;
+        }
+
+        //Mari-Annen metodi aseman nimihakuun
         public static async Task<string> HaeAsemanNimi(string stationShortCode)
         {
-            string urlParams = "/metadata/stations";
+            Station[] asemat = await GetStations();
+            string response = null;
+            var asemanNimi = asemat
+                .Where(x => x.stationShortCode == stationShortCode)
+                .Select(x => x.stationName);
 
-            Stations asema = await ApiHelper.RunAsync<Stations>(url, urlParams);
-            
+            //koska voidaan olettaa, että yhdellä asemakoodilla saadaan tulokseksi yksi asema, haetaan aseman nimi foreach-lauseella sijoittaen se muuttujaan
+            foreach (var asema in asemanNimi)
+            {
+                response = asema;
+            }
 
-            return default;
+            //jos aseman nimi ei ole null, palautetaan nimi, jo on, palautetaan viesti, ettei asemaa löytynyt
+            return (response != null ? response : "Ei löytynyt :(");
         }
     }
 }
