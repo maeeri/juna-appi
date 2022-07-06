@@ -4,12 +4,13 @@ using System.Text;
 
 namespace JunaAppiLatest
 {
+
     public class LatestTrain
     {
-        public TrainLatest[] Property1 { get; set; }
+        public TrainByDate[] Property1 { get; set; }
     }
 
-    public class TrainLatest
+    public class TrainByDate
     {
         public int trainNumber { get; set; }
         public string departureDate { get; set; }
@@ -57,8 +58,9 @@ namespace JunaAppiLatest
         public string categoryCode { get; set; }
         public string detailedCategoryCode { get; set; }
         public string thirdCategoryCode { get; set; }
-        public int detailedCategoryCodeId { get; set; }
         public int categoryCodeId { get; set; }
+        public int detailedCategoryCodeId { get; set; }
         public int thirdCategoryCodeId { get; set; }
     }
+
 }

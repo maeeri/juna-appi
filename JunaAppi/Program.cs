@@ -104,17 +104,24 @@ ___________|||______________________________|______________/
 
             string tanaan = DateTime.Today.ToString("yyyy-MM-dd");
             string param = $"{tanaan}/{junaNumero.ToString()}/";
-            LatestTrain juna = await TrainsApi.GetTrainByNumber(param);
+            LatestTrain[] junat = await TrainsApi.GetTrainByNumber(param);
 
-            if (juna != null)
-                Console.WriteLine(juna.Property1[0].trainType);
-            else
+            Console.WriteLine();
+            foreach (var juna in junat)
             {
-                Console.WriteLine("Ei löytynyt :(");
-            }
+                if (junat != null)
+                {
+                    Console.WriteLine(juna.Property1[0].timeTableRows[0].commercialTrack);
+                }
+                else
+                {
+                    Console.WriteLine("Ei löytynyt :(");
+                }
 
-            Console.WriteLine("Hiya");
+                Console.WriteLine("Hiya");
+            }
         }
+
         //Mari-Annen metodi juna-aseman ja junan yhdistämiseen
         private static async Task StationTrack()
         {

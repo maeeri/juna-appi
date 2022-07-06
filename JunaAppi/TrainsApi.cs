@@ -61,10 +61,10 @@ namespace JunaAppi
         }
 
         //Mari-Annen tekemä muokkaus LatestTrain-olion hakuun
-        public static async Task<LatestTrain> GetTrainByNumber(string input)
+        public static async Task<LatestTrain[]> GetTrainByNumber(string input)
         {
-            string urlParams = "trains/latest/" + input;
-            LatestTrain response = await ApiHelper.RunAsync<LatestTrain>(url, urlParams);
+            string urlParams = "trains/" + input;
+            LatestTrain[] response = await ApiHelper.RunAsync<LatestTrain[]>(url, urlParams);
             return response;
         }
 
@@ -83,9 +83,7 @@ namespace JunaAppi
         {
             Station[] asemat = await GetStations();
             Station response;
-            while (true)
-            {
-                try
+            try
                 {
                     response = asemat.FirstOrDefault(x =>
                         x.stationName.Equals(stationName, StringComparison.OrdinalIgnoreCase));
@@ -103,7 +101,6 @@ namespace JunaAppi
                     Console.WriteLine("Asemaa ei löytynyt");
                     return default;
                 }
-            }
         }
     }
 }
