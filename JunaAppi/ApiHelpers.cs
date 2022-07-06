@@ -5,6 +5,10 @@ using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using System.Text.Json;
 
+
+
+//HealthApista otettua koodia ja tässä ns. korjattu versio
+
 namespace APIHelpers
 {
     public static class ApiHelper
