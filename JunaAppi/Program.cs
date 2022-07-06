@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
-using APIHelpers;
+
 
 
 
@@ -147,21 +148,52 @@ ___________|||______________________________|______________/
             Console.WriteLine("Junan numero:");
             int junanro = Convert.ToInt32(Console.ReadLine());
 
-            Wagon vaunu = await TrainsApi.HaeJunanPalvelut(date, junanro);
+            Vaunu vaunu = await TrainsApi.HaeJunanPalvelut(date, junanro);
 
-            Console.WriteLine(vaunu.catering);
+            Console.WriteLine(date + junanro);
+
+
+            Console.WriteLine("Haluaisin tarkistaa, onko junassa:\n1) lemmikki sallittu\n2) leikkipaikka \n3) ravintolavaunu\n4) inva-paikat ");
+            string inputChoice = Console.ReadLine();
+
+            switch (inputChoice)
+            {
+                case "1":
+                {
+                    var pet = vaunu.journeySections[0].wagons.Any(pet => pet.pet == true);
+                    Console.WriteLine(pet);
+                    break;
+                }
+                case "2":
+                {
+                    var pet = vaunu.journeySections[0].wagons.Any(pet => pet.pet == true);
+                    Console.WriteLine(pet);
+                    break;
+                }
+                case "3":
+                {
+                    var pet = vaunu.journeySections[0].wagons.Any(pet => pet.pet == true);
+                    Console.WriteLine(pet);
+                    break;
+                }
+                case "4":
+                {
+                    var pet = vaunu.journeySections[0].wagons.Any(pet => pet.pet == true);
+                    Console.WriteLine(pet);
+                    break;
+                }
+
+            }
+
             
+
+
+            //Console.WriteLine("Mitä pitäisi olla vaunussa?");
+            //string answer = Console.ReadLine();
+
+            //Console.WriteLine(TrainsApi.HaeJunanPalvelut());
             //Console.ReadLine();
-
-                
-
-
-                //Console.WriteLine("Mitä pitäisi olla vaunussa?");
-                //string answer = Console.ReadLine();
-
-                //Console.WriteLine(TrainsApi.HaeJunanPalvelut());
-                //Console.ReadLine();
-            
+        }
     }
             /*private static void Rejtti(Reitti rejtti)
             {
@@ -173,4 +205,3 @@ ___________|||______________________________|______________/
          }*/
 
     }
-}

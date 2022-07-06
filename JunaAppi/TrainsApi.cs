@@ -30,12 +30,14 @@ namespace JunaAppi
         }
 
         //Otetaan yhetyttä Apiin (Annan versio ryhmän avulla).
-        public static async Task<Wagon> HaeJunanPalvelut(string date, int junanro)
+        public static async Task<Vaunu> HaeJunanPalvelut(string date, int junanro)
         { 
             string urlParams = "compositions/" + date + "/" + junanro;
-            Wagon response = await ApiHelper.RunAsync<Wagon>(url, urlParams);
+            Vaunu response = await ApiHelper.RunAsync<Vaunu>(url, urlParams);
             return response;
         }
+
+       
 
 
         //Akin junan haku apista
