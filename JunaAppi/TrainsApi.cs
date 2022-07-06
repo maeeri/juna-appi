@@ -4,6 +4,7 @@ using System.Text;
 using APIHelpers;
 using System.Threading.Tasks;
 using System.Linq;
+using System.Net.Sockets;
 using System.Security.Cryptography.X509Certificates;
 
 namespace JunaAppi
@@ -48,15 +49,27 @@ namespace JunaAppi
             return reitti;
         }
 
-        //Mari-Annen metodi aseman nimihakuun, pahasti kesken
+        //Materiaalista kopioitu GetStations-metodi
+        public static async Task<Station[]> GetStations()
+        {
+            string urlParams = "metadata/stations";
+
+            var response = await ApiHelper.RunAsync<Station[]>(url, urlParams);
+            return response;
+        }
+
+        //Mari-Annen metodi aseman nimihakuun
         public static async Task<string> HaeAsemanNimi(string stationShortCode)
         {
-            string urlParams = "/metadata/stations";
-
-            Stations asema = await ApiHelper.RunAsync<Stations>(url, urlParams);
-            
-
-            return default;
+            Station[] asemat = await GetStations();
+            string response = null;
+            var asemanNimi = asemat.Where(x => x.stationShortCode == stationShortCode)
+                .Select(x => x.stationName);
+            foreach (var asema in asemanNimi)
+            {
+                response = asema;
+            }
+            return (response != null ? response : "Ei löytynyt :(");
         }
     }
 }
