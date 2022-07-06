@@ -6,32 +6,11 @@ namespace JunaAppi
 {
     class Program
     {
-        //johanna taiteili tähän taas asciiartia
-        private static string AsciiArt = @"
-                                                                        
- _________________________________________________________________________
-        __   _     _   _     _   __         __     ____     ____       __
-        /    /    /    /|   /    / |        / |    /    )   /    )     / 
--------/----/----/----/-| -/----/__|-------/__|---/____/---/____/-----/--
-      /    /    /    /  | /    /   | ===  /   |  /        /          /   
-_(___/____(____/____/___|/____/____|_____/____|_/________/________ _/_ __
-
-  ___________   _______________________________________^__
- ___   ___ |||  ___   ___   ___    ___ ___  |   __  ,----\
-|   | |   |||| |   | |   | |   |  |   |   | |  |  | |_____\
-|___| |___|||| |___| |___| |___|  | O | O | |  |  |        \
-           |||                    |___|___| |  |__|         )
-___________|||______________________________|______________/
-           |||                                        /--------
------------'''---------------------------------------' ";
-
-        //Johanna miettii metodia, joka hakisi seuraavan pysäkin
-        private static async Task GetNextStation()
+        //Johanna miettiin metodia, joka hakisi seuraavan pysäkin
+        private static void GetNextStation()
         {
-            //junan numeron perusteella 
+            //junan numeron perusteella, 
             Console.WriteLine("Annan junan numero");
-            string junanNumero = Console.ReadLine(); 
-            TrainTrackingLatest trackedTrain = await TrainsApi.GetLocation(junanNumero);
         }
         static void Main(string[] args)
         {
@@ -43,14 +22,6 @@ ___________|||______________________________|______________/
         }
         private static bool MainMenu()
         {
-            //johanna lisää vähän visuaalisuutta
-            Console.BackgroundColor = ConsoleColor.Red; //koska Aki toivoi <3
-            Console.Clear();
-            Console.ForegroundColor = ConsoleColor.White;
-            Console.WriteLine(Environment.NewLine);
-            Console.WriteLine(AsciiArt);
-            Console.WriteLine(Environment.NewLine);
-            Console.ForegroundColor = ConsoleColor.Yellow;
             //Akin valikko
             Console.WriteLine("Vaihtoehtosi:\n1) Mistä-Mihin\n2) Ajoissa\n3) Seuraava Pysäkki\n4) Vaihtoraide\n5) Junan Palvelut\n6) Poistu");
             switch (Console.ReadLine())
@@ -61,7 +32,6 @@ ___________|||______________________________|______________/
                 case "2":
                     return true;
                 case "3":
-                    GetNextStation();
                     return true;
                 case "4":
                     FindTrack();
@@ -80,21 +50,19 @@ ___________|||______________________________|______________/
         {
             Console.WriteLine("Minkä junan (numero) lähtöraiteen haluat hakea?");
             int.TryParse(Console.ReadLine(), out int junaNumero);
-            Console.WriteLine("Minkä aseman tiedot haluat?");
-            string asemaRaide = Console.ReadLine().ToLower();
-
-
-
-            //string param = "latest/" + junaNumero + "?version=0";
-            //Juna juna = await TrainsApi.GetJuna(param);
-
-            //if (juna != null)
-            //    Console.WriteLine(juna.timeTableRows);
-            //else
-            //{
-            //    Console.WriteLine("Ei löytynyt :(");
-            //}
-
+            //Console.WriteLine("Minkä aseman tiedot haluat?");
+            //string asemaRaide = Console.ReadLine().ToLower();
+            
+            string param = "latest/" + junaNumero;
+            Juna juna = await TrainsApi.GetJuna(param);
+            /*
+            if (juna != null)
+                Console.WriteLine(juna.ToString());
+            else
+            {
+                Console.WriteLine("Ei löytynyt :(");
+            }
+            */
         }
 
             private static async Task MisMih()
@@ -117,8 +85,8 @@ ___________|||______________________________|______________/
                     if (reitti == null)
                     Console.WriteLine("\nJunaa ei löydy");
 
-                    //else
-                        //PrintReittiData(reitti);
+                    /*else
+                        Rejtti(reitti);*/
                 }
                 catch (FormatException)
                 {
@@ -128,17 +96,15 @@ ___________|||______________________________|______________/
                 }
                 break;
             }
-            
-
 
             }
-            /*private static void PrintReittiData(Reitti reitti)
+            /*private static void Rejtti(Reitti rejtti)
             {
             Console.WriteLine("  Reittisi tiedot:");
-            Console.WriteLine($"  Reitti lähtö: {reitti.operatorShortCode}");
-            Console.WriteLine($"  Reitti saapuminen: {reitti.operatorShortCode}");
-            Console.WriteLine($"  Reitti lähtöaika: {reitti.departureDate}");
-            Console.WriteLine($"  Reitti carbohydrates: {reitti.Timetablerow.countryCode}");
-            }*/
-}
+            Console.WriteLine($"  Reitti lähtö: {rejtti.operatorShortCode}");
+            Console.WriteLine($"  Reitti saapuminen: {rejtti.operatorShortCode}");
+            Console.WriteLine($"  Reitti lähtöaika: {rejtti.departureDate}");
+            Console.WriteLine($"  Reitti carbohydrates: {rejtti.timeTableRows.countryCode}");
+         }*/
+    }
 }
