@@ -5,7 +5,7 @@ using APIHelpers;
 using System.Threading.Tasks;
 using System.Linq;
 using System.Security.Cryptography.X509Certificates;
-
+using Reitit;
 namespace JunaAppi
 {
     public static class TrainsApi
@@ -43,7 +43,7 @@ namespace JunaAppi
         {
             string urlParams = "live-trains/station/" + lahto + "/" + saapuminen;
 
-            Reitti reitti = await ApiHelper.RunAsync<Reitti>(url, urlParams);
+            Reitti reitti = await ApiHelper.RunAsync<Reitti>(url,urlParams);
 
             return reitti;
         }

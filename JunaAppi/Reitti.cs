@@ -8,14 +8,7 @@ using System.Security.Cryptography.X509Certificates;
 
 namespace JunaAppi
 {
-     public class Reitti
-    {
-        public class Reitinhaku
-        {
-            public Class1[] Property1 { get; set; }
-        }
-
-        public class Class1
+        public class Reitti
         {
             public int trainNumber { get; set; }
             public string departureDate { get; set; }
@@ -46,4 +39,4 @@ namespace JunaAppi
         }
 
     }
-}
+
