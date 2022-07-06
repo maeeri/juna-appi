@@ -6,9 +6,9 @@ namespace JunaAppi
 {
     class Program
     {
-<<<<<<< HEAD
+
         //johanna taiteili tähän taas asciiartia
-        private static string AsciiArt = @"
+        private static readonly string AsciiArt = @"
                                                                         
  _________________________________________________________________________
         __   _     _   _     _   __         __     ____     ____       __
@@ -26,21 +26,13 @@ ___________|||______________________________|______________/
            ||| TIIMI KUTONEN                             /--------
 -----------'''---------------------------------------' ";
 
-        //Johanna miettii metodia, joka hakisi seuraavan pysäkin
-        private static async Task GetNextStation()
-=======
         //Johanna miettiin metodia, joka hakisi seuraavan pysäkin
-        private static void GetNextStation()
->>>>>>> 143ec8f424946422e24e50f026a989d2c88f5ee3
+        private static async Task GetNextStationAsync()
         {
             //junan numeron perusteella, 
             Console.WriteLine("Annan junan numero");
-<<<<<<< HEAD
             string junanNumero = Console.ReadLine(); 
             TrainTrackingLatest trackedTrain = await TrainsApi.GetLocation(junanNumero);
-            
-=======
->>>>>>> 143ec8f424946422e24e50f026a989d2c88f5ee3
         }
         static void Main(string[] args)
         {
@@ -52,6 +44,13 @@ ___________|||______________________________|______________/
         }
         private static bool MainMenu()
         {
+            Console.BackgroundColor = ConsoleColor.Red; //Akin toiveväri tähän
+            Console.Clear();
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.WriteLine(Environment.NewLine);
+            Console.WriteLine(AsciiArt);
+            Console.WriteLine(Environment.NewLine);
+            Console.ForegroundColor = ConsoleColor.Yellow;
             //Akin valikko
             Console.WriteLine("Vaihtoehtosi:\n1) Mistä-Mihin\n2) Ajoissa\n3) Seuraava Pysäkki\n4) Vaihtoraide\n5) Junan Palvelut\n6) Poistu");
             switch (Console.ReadLine())
@@ -62,6 +61,7 @@ ___________|||______________________________|______________/
                 case "2":
                     return true;
                 case "3":
+                    GetNextStationAsync();
                     return true;
                 case "4":
                     FindTrack();
