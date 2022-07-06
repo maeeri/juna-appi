@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Linq;
 using System.Net.Sockets;
 using System.Security.Cryptography.X509Certificates;
+using JunaAppiLatest;
 
 namespace JunaAppi
 {
@@ -31,10 +32,11 @@ namespace JunaAppi
         }
 
         //Otetaan yhetyttä Apiin (Annan versio ryhmän avulla).
-        public static async Task<Wagon> HaeJunanPalvelut(string input)
+
+        public static async Task<Vaunu> HaeJunanPalvelut(string date, int junanro)
         {
-            string urlParams = "compositions/" + input;
-            Wagon response = await ApiHelper.RunAsync<Wagon>(url, urlParams);
+            string urlParams = "compositions/" + date + "/" + junanro;
+            Vaunu response = await ApiHelper.RunAsync<Vaunu>(url, urlParams);
             return response;
         }
 
@@ -49,32 +51,59 @@ namespace JunaAppi
             return reitti;
         }
 
-        //Materiaalista kopioitu GetStations-metodi
+        //Materiaalista häpeilemättä kopioitu GetStations-metodi
         public static async Task<Station[]> GetStations()
         {
             string urlParams = "metadata/stations";
 
-            var response = await ApiHelper.RunAsync<Station[]>(url, urlParams);
+            Station[] response = await ApiHelper.RunAsync<Station[]>(url, urlParams);
             return response;
         }
 
-        //Mari-Annen metodi aseman nimihakuun
-        public static async Task<string> HaeAsemanNimi(string stationShortCode)
+        //Mari-Annen tekemä muokkaus LatestTrain-olion hakuun
+        public static async Task<LatestTrain> GetTrainByNumber(string input)
+        {
+            string urlParams = "trains/latest/" + input;
+            LatestTrain response = await ApiHelper.RunAsync<LatestTrain>(url, urlParams);
+            return response;
+        }
+
+        //Mari-Annen metodi aseman hakuun asemakoodin perusteella
+        public static async Task<Station> GetStationByCodeAsync(string stationShortCode)
         {
             Station[] asemat = await GetStations();
-            string response = null;
-            var asemanNimi = asemat
-                .Where(x => x.stationShortCode == stationShortCode)
-                .Select(x => x.stationName);
+            Station response = asemat.FirstOrDefault(x => x.stationShortCode.Equals(stationShortCode, StringComparison.OrdinalIgnoreCase));
 
-            //koska voidaan olettaa, että yhdellä asemakoodilla saadaan tulokseksi yksi asema, haetaan aseman nimi foreach-lauseella sijoittaen se muuttujaan
-            foreach (var asema in asemanNimi)
+            //jos asema ei ole null, palautetaan Station-olio ja jos on, palautetaan oletusarvo
+            return (response != null ? response : default);
+        }
+
+        //metodi aseman hakuun nimen perusteella /Mari-Anne
+        public static async Task<Station> GetStationByNameAsync(string stationName)
+        {
+            Station[] asemat = await GetStations();
+            Station response;
+            while (true)
             {
-                response = asema;
+                try
+                {
+                    response = asemat.FirstOrDefault(x =>
+                        x.stationName.Equals(stationName, StringComparison.OrdinalIgnoreCase));
+                    return response;
+                }
+                catch (NullReferenceException e)
+                {
+                    stationName += " asema";
+                    response = asemat.FirstOrDefault(x =>
+                        x.stationName.Equals(stationName, StringComparison.OrdinalIgnoreCase));
+                    return response;
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine("Asemaa ei löytynyt");
+                    return default;
+                }
             }
-
-            //jos aseman nimi ei ole null, palautetaan nimi, jo on, palautetaan viesti, ettei asemaa löytynyt
-            return (response != null ? response : "Ei löytynyt :(");
         }
     }
 }
