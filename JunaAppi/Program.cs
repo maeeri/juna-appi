@@ -6,11 +6,41 @@ namespace JunaAppi
 {
     class Program
     {
+<<<<<<< HEAD
+        //johanna taiteili tähän taas asciiartia
+        private static string AsciiArt = @"
+                                                                        
+ _________________________________________________________________________
+        __   _     _   _     _   __         __     ____     ____       __
+        /    /    /    /|   /    / |        / |    /    )   /    )     / 
+-------/----/----/----/-| -/----/__|-------/__|---/____/---/____/-----/--
+      /    /    /    /  | /    /   | ===  /   |  /        /          /   
+_(___/____(____/____/___|/____/____|_____/____|_/________/________ _/_ __
+
+  ___________   _______________________________________^__
+ ___   ___ |||  ___   ___   ___    ___ ___  |   __  ,----\
+|   | |   |||| |   | |   | |   |  |   |   | |  |  | |_____\
+|___| |___|||| |___| |___| |___|  | O | O | |  |  |        \
+           |||                    |___|___| |  |__|         )
+___________|||______________________________|______________/
+           ||| TIIMI KUTONEN                             /--------
+-----------'''---------------------------------------' ";
+
+        //Johanna miettii metodia, joka hakisi seuraavan pysäkin
+        private static async Task GetNextStation()
+=======
         //Johanna miettiin metodia, joka hakisi seuraavan pysäkin
         private static void GetNextStation()
+>>>>>>> 143ec8f424946422e24e50f026a989d2c88f5ee3
         {
             //junan numeron perusteella, 
             Console.WriteLine("Annan junan numero");
+<<<<<<< HEAD
+            string junanNumero = Console.ReadLine(); 
+            TrainTrackingLatest trackedTrain = await TrainsApi.GetLocation(junanNumero);
+            
+=======
+>>>>>>> 143ec8f424946422e24e50f026a989d2c88f5ee3
         }
         static void Main(string[] args)
         {
