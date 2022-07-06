@@ -82,10 +82,11 @@ namespace JunaAppi
 
                     Reitti reitti = await TrainsApi.HaeReitti(lahto, saapuminen);
 
-                    //if (reitti == null)
-                    //Console.WriteLine("\nJunaa ei löydy");
+                    if (reitti == null)
+                    Console.WriteLine("\nJunaa ei löydy");
+
                     //else
-                    
+                        //PrintReittiData(reitti);
                 }
                 catch (FormatException)
                 {
@@ -95,8 +96,17 @@ namespace JunaAppi
                 }
                 break;
             }
+            
 
 
-        }
-    }
+            }
+            /*private static void PrintReittiData(Reitti reitti)
+            {
+            Console.WriteLine("  Reittisi tiedot:");
+            Console.WriteLine($"  Reitti lähtö: {reitti.operatorShortCode}");
+            Console.WriteLine($"  Reitti saapuminen: {reitti.operatorShortCode}");
+            Console.WriteLine($"  Reitti lähtöaika: {reitti.departureDate}");
+            Console.WriteLine($"  Reitti carbohydrates: {reitti.Timetablerow.countryCode}");
+            }*/
+}
 }
