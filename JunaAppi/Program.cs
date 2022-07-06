@@ -1,5 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
+using APIHelpers;
+
 
 
 namespace JunaAppi
@@ -67,6 +73,7 @@ ___________|||______________________________|______________/
                     FindTrack();
                     return true;
                 case "5":
+                    ExtraOptions();
                     return true;
                 case "6":
                     return false;
@@ -130,7 +137,35 @@ ___________|||______________________________|______________/
                 break;
             }
 
-            }
+
+        }
+
+            private static async Task ExtraOptions()
+            {
+
+            //var response = APIHelpers.RunAsync<Vaunu>(url, urlParams);
+            Console.WriteLine("Minä päivänä juna lähtee?");
+            string date = Console.ReadLine();
+
+            Console.WriteLine("Junan numero:");
+            int junanro = Convert.ToInt32(Console.ReadLine());
+
+            Wagon vaunu = await TrainsApi.HaeJunanPalvelut(date, junanro);
+
+            Console.WriteLine(vaunu.catering);
+            
+            //Console.ReadLine();
+
+                
+
+
+                //Console.WriteLine("Mitä pitäisi olla vaunussa?");
+                //string answer = Console.ReadLine();
+
+                //Console.WriteLine(TrainsApi.HaeJunanPalvelut());
+                //Console.ReadLine();
+            
+    }
             /*private static void Rejtti(Reitti rejtti)
             {
             Console.WriteLine("  Reittisi tiedot:");
@@ -139,5 +174,6 @@ ___________|||______________________________|______________/
             Console.WriteLine($"  Reitti lähtöaika: {rejtti.departureDate}");
             Console.WriteLine($"  Reitti carbohydrates: {rejtti.timeTableRows.countryCode}");
          }*/
+
     }
 }
