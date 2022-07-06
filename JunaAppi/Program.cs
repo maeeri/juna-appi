@@ -85,23 +85,23 @@ ___________|||______________________________|______________/
         //Mari-Annen metodi junalaiturien löytämiseen
         private static async Task FindTrack()
         {
-            //Console.WriteLine(await TrainsApi.HaeAsemanNimi("HKI"));
-            //Console.WriteLine("Hello!");
+            Station asema = await TrainsApi.GetStationByNameAsync("helsinki");
+            Console.WriteLine(asema.stationName);
 
-            Console.WriteLine("Minkä junan (numero) lähtöraiteen haluat hakea?");
-            int.TryParse(Console.ReadLine(), out int junaNumero);
+            //Console.WriteLine("Minkä junan (numero) lähtöraiteen haluat hakea?");
+            //int.TryParse(Console.ReadLine(), out int junaNumero);
             //Console.WriteLine("Minkä aseman tiedot haluat?");
             //string asemaRaide = Console.ReadLine().ToLower();
 
-            string param = "latest/" + junaNumero;
-            Juna juna = await TrainsApi.GetJuna(param);
+            //string param = "latest/" + junaNumero;
+            //Juna juna = await TrainsApi.GetJuna(param);
 
-            if (juna != null)
-                Console.WriteLine(juna.ToString());
-            else
-            {
-                Console.WriteLine("Ei löytynyt :(");
-            }
+            //if (juna != null)
+            //    Console.WriteLine(juna.ToString());
+            //else
+            //{
+            //    Console.WriteLine("Ei löytynyt :(");
+            //}
 
         }
         //Mari-Annen metodi juna-aseman ja junan yhdistämiseen
