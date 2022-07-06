@@ -27,7 +27,7 @@ ___________|||______________________________|______________/
 -----------'''---------------------------------------' ";
 
         //Johanna miettiin metodia, joka hakisi seuraavan pysäkin
-        private static async Task GetNextStationAsync()
+        private static async Task GetNextStation()
         {
             //junan numeron perusteella, 
             Console.WriteLine("Annan junan numero");
@@ -61,7 +61,7 @@ ___________|||______________________________|______________/
                 case "2":
                     return true;
                 case "3":
-                    GetNextStationAsync();
+                    GetNextStation();
                     return true;
                 case "4":
                     FindTrack();
