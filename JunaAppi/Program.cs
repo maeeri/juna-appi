@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using APIHelpers;
-using JunaAppiLatest;
 
 
 namespace JunaAppi
@@ -160,22 +160,58 @@ ___________|||______________________________|______________/
 
             Console.WriteLine("Junan numero:");
             int junanro = Convert.ToInt32(Console.ReadLine());
-            string urlParams = $"{date}/{junanro}";
-            Wagon vaunu = await TrainsApi.HaeJunanPalvelut(urlParams);
 
-            Console.WriteLine(vaunu.catering);
+
+            Vaunu vaunu = await TrainsApi.HaeJunanPalvelut(date, junanro);
+
+            Console.WriteLine(date + junanro);
+
+            var pet = vaunu.journeySections[0].wagons.Any(pet => pet.pet == true);
+            Console.WriteLine(pet);
+
+            /*Console.WriteLine("Haluaisin tarkistaa, onko junassa:\n1) lemmikki sallittu\n2) leikkipaikka \n3) ravintolavaunu\n4) inva-paikat ");
+            string inputChoice = Console.ReadLine();
+
+            switch (inputChoice)
+            {
+                case "1":
+                {
+                    var pet = vaunu.journeySections[0].wagons.Any(pet => pet.pet == true);
+                    Console.WriteLine(pet);
+                    break;
+                }
+                case "2":
+                {
+                    var pet = vaunu.journeySections[0].wagons.Any(pet => pet.pet == true);
+                    Console.WriteLine(pet);
+                    break;
+                }
+                case "3":
+                {
+                    var pet = vaunu.journeySections[0].wagons.Any(pet => pet.pet == true);
+                    Console.WriteLine(pet);
+                    break;
+                }
+                case "4":
+                {
+                    var pet = vaunu.journeySections[0].wagons.Any(pet => pet.pet == true);
+                    Console.WriteLine(pet);
+                    break;
+                }*/
+
+            }
+
+
+
             
+
+
+            //Console.WriteLine("Mitä pitäisi olla vaunussa?");
+            //string answer = Console.ReadLine();
+
+            //Console.WriteLine(TrainsApi.HaeJunanPalvelut());
             //Console.ReadLine();
-
-                
-
-
-                //Console.WriteLine("Mitä pitäisi olla vaunussa?");
-                //string answer = Console.ReadLine();
-
-                //Console.WriteLine(TrainsApi.HaeJunanPalvelut());
-                //Console.ReadLine();
-            
+        }
     }
             /*private static void Rejtti(Reitti rejtti)
             {
@@ -186,5 +222,4 @@ ___________|||______________________________|______________/
             Console.WriteLine($"  Reitti carbohydrates: {rejtti.timeTableRows.countryCode}");
          }*/
 
-    }
-}
+    
