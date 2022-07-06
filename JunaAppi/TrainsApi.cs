@@ -37,7 +37,11 @@ namespace JunaAppi
             string urlParams = "compositions/" + date + "/" + junanro;
             Vaunu response = await ApiHelper.RunAsync<Vaunu>(url, urlParams);
             return response;
+
+
         }
+
+
 
 
         //Akin junan haku apista

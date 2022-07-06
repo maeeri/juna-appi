@@ -38,18 +38,20 @@ ___________|||______________________________|______________/
         {
             //junan numeron perusteella, 
             Console.WriteLine("Annan junan numero");
-            string junanNumero = Console.ReadLine(); 
+            string junanNumero = Console.ReadLine();
             TrainTrackingLatest trackedTrain = await TrainsApi.GetLocation(junanNumero);
         }
-        static void Main(string[] args)
+
+        static async Task Main(string[] args)
         {
             bool valikko = true;
             while (valikko)
             {
-                valikko = MainMenu();
+                valikko = await MainMenu();
             }
         }
-        private static bool MainMenu()
+
+        private static async Task<bool> MainMenu()
         {
             Console.BackgroundColor = ConsoleColor.Red; //Akin toiveväri tähän
             Console.Clear();
@@ -60,6 +62,7 @@ ___________|||______________________________|______________/
             Console.ForegroundColor = ConsoleColor.Yellow;
             //Akin valikko
             Console.WriteLine("Vaihtoehtosi:\n1) Mistä-Mihin\n2) Ajoissa\n3) Seuraava Pysäkki\n4) Vaihtoraide\n5) Junan Palvelut\n6) Poistu");
+
             switch (Console.ReadLine())
             {
                 case "1":
@@ -74,7 +77,7 @@ ___________|||______________________________|______________/
                     FindTrack();
                     return true;
                 case "5":
-                    ExtraOptions();
+                    await ExtraOptions();
                     return true;
                 case "6":
                     return false;
@@ -105,14 +108,16 @@ ___________|||______________________________|______________/
             //}
 
         }
+
         //Mari-Annen metodi juna-aseman ja junan yhdistämiseen
         private static async Task StationTrack()
         {
 
         }
 
-            private static async Task MisMih()
-            {//Akin Väserrykset
+        private static async Task MisMih()
+        {
+            //Akin Väserrykset
             while (true)
             {
                 try
@@ -129,7 +134,7 @@ ___________|||______________________________|______________/
                     Reitti reitti = await TrainsApi.HaeReitti(lahto, saapuminen);
 
                     if (reitti == null)
-                    Console.WriteLine("\nJunaa ei löydy");
+                        Console.WriteLine("\nJunaa ei löydy");
 
                     /*else
                         Rejtti(reitti);*/
@@ -140,14 +145,15 @@ ___________|||______________________________|______________/
                     Console.WriteLine("-.-");
                     continue;
                 }
+
                 break;
             }
 
 
         }
 
-            private static async Task ExtraOptions()
-            {
+        private static async Task ExtraOptions()
+        {
 
             //var response = APIHelpers.RunAsync<Vaunu>(url, urlParams);
             Console.WriteLine("Minä päivänä juna lähtee?");
@@ -159,62 +165,79 @@ ___________|||______________________________|______________/
 
             Vaunu vaunu = await TrainsApi.HaeJunanPalvelut(date, junanro);
 
-            Console.WriteLine(date + junanro);
+            Console.WriteLine(date + " " + junanro);
 
-            var pet = vaunu.journeySections[0].wagons.Any(pet => pet.pet == true);
-            Console.WriteLine(pet);
+            //var pet = vaunu.journeySections[0].wagons.Any(pet => pet.pet == true);
+            //Console.WriteLine(pet);
 
-            /*Console.WriteLine("Haluaisin tarkistaa, onko junassa:\n1) lemmikki sallittu\n2) leikkipaikka \n3) ravintolavaunu\n4) inva-paikat ");
-            string inputChoice = Console.ReadLine();
+            Console.WriteLine("Haluaisin tarkistaa, onko junassa:\nA) lemmikki sallittu\nB) leikkipaikka \nC) ravintolavaunu\nD) esteettömyys");
 
-            switch (inputChoice)
+            switch (Console.ReadLine())
             {
-                case "1":
+                    
+                case "A":
                 {
                     var pet = vaunu.journeySections[0].wagons.Any(pet => pet.pet == true);
-                    Console.WriteLine(pet);
+
+                    Console.WriteLine(pet == true
+                        ? "Lemmikinne on tervetullut!"
+                        : "Valitettavasti lemmikit ei ole sallittuja.");
+
+                    Console.ReadLine();
+                    break;
+
+                }
+                case "B":
+                {
+                    var playground = vaunu.journeySections[0].wagons.Any(playground => playground.playground == true);
+
+
+                    Console.WriteLine(playground == true
+                        ? "Leikkipaikka löytyy. Tervetuloa!"
+                        : "Valitettavasti tässä vuorossa ei ole leikkipaikkaa.");
+
+                    Console.ReadLine();
                     break;
                 }
-                case "2":
+                case "C":
                 {
-                    var pet = vaunu.journeySections[0].wagons.Any(pet => pet.pet == true);
-                    Console.WriteLine(pet);
+                    var catering = vaunu.journeySections[0].wagons.Any(catering => catering.catering == true);
+
+                    Console.WriteLine(catering == true
+                        ? "Junassa on ravintolavaunu. Tervetuloa!"
+                        : "Valitettavasti tässä vuorossa ei ole ravintolavaunua.");
+
+                        Console.ReadLine();
                     break;
                 }
-                case "3":
+                case "D":
                 {
-                    var pet = vaunu.journeySections[0].wagons.Any(pet => pet.pet == true);
-                    Console.WriteLine(pet);
+                    var disabled = vaunu.journeySections[0].wagons.Any(disabled => disabled.disabled == true);
+
+                    Console.WriteLine(disabled == true
+                        ? "Valitsemanne juna on esteetön. Tervetuloa!"
+                        : "Valitettavasti tämä vuoro ei ole esteetön.");
+
+                        Console.ReadLine();
+
                     break;
                 }
-                case "4":
-                {
-                    var pet = vaunu.journeySections[0].wagons.Any(pet => pet.pet == true);
-                    Console.WriteLine(pet);
-                    break;
-                }*/
+
 
             }
-
-
-
             
-
-
-            //Console.WriteLine("Mitä pitäisi olla vaunussa?");
-            //string answer = Console.ReadLine();
-
-            //Console.WriteLine(TrainsApi.HaeJunanPalvelut());
-            //Console.ReadLine();
+            
         }
     }
-            /*private static void Rejtti(Reitti rejtti)
-            {
-            Console.WriteLine("  Reittisi tiedot:");
-            Console.WriteLine($"  Reitti lähtö: {rejtti.operatorShortCode}");
-            Console.WriteLine($"  Reitti saapuminen: {rejtti.operatorShortCode}");
-            Console.WriteLine($"  Reitti lähtöaika: {rejtti.departureDate}");
-            Console.WriteLine($"  Reitti carbohydrates: {rejtti.timeTableRows.countryCode}");
-         }*/
+}
+
+/*private static void Rejtti(Reitti rejtti)
+{
+Console.WriteLine("  Reittisi tiedot:");
+Console.WriteLine($"  Reitti lähtö: {rejtti.operatorShortCode}");
+Console.WriteLine($"  Reitti saapuminen: {rejtti.operatorShortCode}");
+Console.WriteLine($"  Reitti lähtöaika: {rejtti.departureDate}");
+Console.WriteLine($"  Reitti carbohydrates: {rejtti.timeTableRows.countryCode}");
+}*/
 
     
