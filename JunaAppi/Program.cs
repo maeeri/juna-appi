@@ -108,6 +108,7 @@ ___________|||______________________________|______________/
                 Console.WriteLine("Ei löytynyt :(");
             }
 
+            Console.WriteLine("Hiya");
         }
         //Mari-Annen metodi juna-aseman ja junan yhdistämiseen
         private static async Task StationTrack()
