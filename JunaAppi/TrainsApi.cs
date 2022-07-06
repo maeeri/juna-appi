@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Linq;
 using System.Net.Sockets;
 using System.Security.Cryptography.X509Certificates;
+using JunaAppiLatest;
 
 namespace JunaAppi
 {
@@ -58,6 +59,13 @@ namespace JunaAppi
             return response;
         }
 
+        public static async Task<LatestTrain> GetTrainByNumber(string input)
+        {
+            string urlParams = "trains/latest/" + input;
+            LatestTrain response = await ApiHelper.RunAsync<LatestTrain>(url, urlParams);
+            return response;
+        }
+
         //Mari-Annen metodi aseman hakuun asemakoodin perusteella
         public static async Task<Station> GetStationByCodeAsync(string stationShortCode)
         {
@@ -71,11 +79,29 @@ namespace JunaAppi
         //metodi aseman hakuun nimen perusteella /Mari-Anne
         public static async Task<Station> GetStationByNameAsync(string stationName)
         {
-            stationName += " asema";
             Station[] asemat = await GetStations();
-            Station response = asemat.FirstOrDefault(x => x.stationName.Equals(stationName, StringComparison.OrdinalIgnoreCase));
-
-            return response;
+            Station response;
+            while (true)
+            {
+                try
+                {
+                    response = asemat.FirstOrDefault(x =>
+                        x.stationName.Equals(stationName, StringComparison.OrdinalIgnoreCase));
+                    return response;
+                }
+                catch (NullReferenceException e)
+                {
+                    stationName += " asema";
+                    response = asemat.FirstOrDefault(x =>
+                        x.stationName.Equals(stationName, StringComparison.OrdinalIgnoreCase));
+                    return response;
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine("Asemaa ei löytynyt");
+                    return default;
+                }
+            }
         }
     }
 }

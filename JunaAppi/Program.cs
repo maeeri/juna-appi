@@ -5,7 +5,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using APIHelpers;
-
+using JunaAppiLatest;
 
 
 namespace JunaAppi
@@ -85,23 +85,28 @@ ___________|||______________________________|______________/
         //Mari-Annen metodi junalaiturien löytämiseen
         private static async Task FindTrack()
         {
-            Station asema = await TrainsApi.GetStationByNameAsync("helsinki");
-            Console.WriteLine(asema.stationName);
+            //Station asema = await TrainsApi.GetStationByNameAsync("hämeenlinna");
+            //if (asema != null)
+            //    Console.WriteLine(asema.stationName);
+            //else
+            //    Console.WriteLine("Asemaa ei löytynyt :(");
 
-            //Console.WriteLine("Minkä junan (numero) lähtöraiteen haluat hakea?");
-            //int.TryParse(Console.ReadLine(), out int junaNumero);
+
+
+            Console.WriteLine("Minkä junan (numero) lähtöraiteen haluat hakea?");
+            int.TryParse(Console.ReadLine(), out int junaNumero);
             //Console.WriteLine("Minkä aseman tiedot haluat?");
             //string asemaRaide = Console.ReadLine().ToLower();
 
-            //string param = "latest/" + junaNumero;
-            //Juna juna = await TrainsApi.GetJuna(param);
+            string param = junaNumero.ToString();
+            Juna juna = await TrainsApi.GetJuna(param);
 
-            //if (juna != null)
-            //    Console.WriteLine(juna.ToString());
-            //else
-            //{
-            //    Console.WriteLine("Ei löytynyt :(");
-            //}
+            if (juna != null)
+                Console.WriteLine(juna.departureDate);
+            else
+            {
+                Console.WriteLine("Ei löytynyt :(");
+            }
 
         }
         //Mari-Annen metodi juna-aseman ja junan yhdistämiseen
