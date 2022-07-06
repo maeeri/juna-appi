@@ -34,7 +34,7 @@ ___________|||______________________________|______________/
 -----------'''---------------------------------------' ";
 
         //Johanna miettiin metodia, joka hakisi seuraavan pysäkin
-        private static async Task GetNextStationAsync()
+        private static async Task GetNextStation()
         {
             //junan numeron perusteella, 
             Console.WriteLine("Annan junan numero");
@@ -68,7 +68,7 @@ ___________|||______________________________|______________/
                 case "2":
                     return true;
                 case "3":
-                    GetNextStationAsync();
+                    GetNextStation();
                     return true;
                 case "4":
                     FindTrack();
@@ -86,21 +86,29 @@ ___________|||______________________________|______________/
         //Mari-Annen metodi junalaiturien löytämiseen
         private static async Task FindTrack()
         {
-            Console.WriteLine("Minkä junan (numero) lähtöraiteen haluat hakea?");
-            int.TryParse(Console.ReadLine(), out int junaNumero);
+            Station asema = await TrainsApi.GetStationByNameAsync("helsinki");
+            Console.WriteLine(asema.stationName);
+
+            //Console.WriteLine("Minkä junan (numero) lähtöraiteen haluat hakea?");
+            //int.TryParse(Console.ReadLine(), out int junaNumero);
             //Console.WriteLine("Minkä aseman tiedot haluat?");
             //string asemaRaide = Console.ReadLine().ToLower();
-            
-            string param = "latest/" + junaNumero;
-            Juna juna = await TrainsApi.GetJuna(param);
-            /*
-            if (juna != null)
-                Console.WriteLine(juna.ToString());
-            else
-            {
-                Console.WriteLine("Ei löytynyt :(");
-            }
-            */
+
+            //string param = "latest/" + junaNumero;
+            //Juna juna = await TrainsApi.GetJuna(param);
+
+            //if (juna != null)
+            //    Console.WriteLine(juna.ToString());
+            //else
+            //{
+            //    Console.WriteLine("Ei löytynyt :(");
+            //}
+
+        }
+        //Mari-Annen metodi juna-aseman ja junan yhdistämiseen
+        private static async Task StationTrack()
+        {
+
         }
 
             private static async Task MisMih()
@@ -148,12 +156,15 @@ ___________|||______________________________|______________/
             Console.WriteLine("Junan numero:");
             int junanro = Convert.ToInt32(Console.ReadLine());
 
+
             Vaunu vaunu = await TrainsApi.HaeJunanPalvelut(date, junanro);
 
             Console.WriteLine(date + junanro);
 
+            var pet = vaunu.journeySections[0].wagons.Any(pet => pet.pet == true);
+            Console.WriteLine(pet);
 
-            Console.WriteLine("Haluaisin tarkistaa, onko junassa:\n1) lemmikki sallittu\n2) leikkipaikka \n3) ravintolavaunu\n4) inva-paikat ");
+            /*Console.WriteLine("Haluaisin tarkistaa, onko junassa:\n1) lemmikki sallittu\n2) leikkipaikka \n3) ravintolavaunu\n4) inva-paikat ");
             string inputChoice = Console.ReadLine();
 
             switch (inputChoice)
@@ -181,9 +192,11 @@ ___________|||______________________________|______________/
                     var pet = vaunu.journeySections[0].wagons.Any(pet => pet.pet == true);
                     Console.WriteLine(pet);
                     break;
-                }
+                }*/
 
             }
+
+
 
             
 
@@ -204,4 +217,4 @@ ___________|||______________________________|______________/
             Console.WriteLine($"  Reitti carbohydrates: {rejtti.timeTableRows.countryCode}");
          }*/
 
-    }
+    

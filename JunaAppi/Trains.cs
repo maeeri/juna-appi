@@ -2,7 +2,7 @@
 
 public class Junat
 {
-    public Juna[] train { get; set; }
+    public Juna[] Property1 { get; set; }
 }
 
 public class Juna

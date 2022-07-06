@@ -4,6 +4,7 @@ using System.Text;
 using APIHelpers;
 using System.Threading.Tasks;
 using System.Linq;
+using System.Net.Sockets;
 using System.Security.Cryptography.X509Certificates;
 
 namespace JunaAppi
@@ -30,14 +31,13 @@ namespace JunaAppi
         }
 
         //Otetaan yhetyttä Apiin (Annan versio ryhmän avulla).
+
         public static async Task<Vaunu> HaeJunanPalvelut(string date, int junanro)
-        { 
+        {
             string urlParams = "compositions/" + date + "/" + junanro;
             Vaunu response = await ApiHelper.RunAsync<Vaunu>(url, urlParams);
             return response;
         }
-
-       
 
 
         //Akin junan haku apista
@@ -50,15 +50,33 @@ namespace JunaAppi
             return reitti;
         }
 
-        //Mari-Annen metodi aseman nimihakuun, pahasti kesken
-        public static async Task<string> HaeAsemanNimi(string stationShortCode)
+        //Materiaalista häpeilemättä kopioitu GetStations-metodi
+        public static async Task<Station[]> GetStations()
         {
-            string urlParams = "/metadata/stations";
+            string urlParams = "metadata/stations";
 
-            Stations asema = await ApiHelper.RunAsync<Stations>(url, urlParams);
-            
+            Station[] response = await ApiHelper.RunAsync<Station[]>(url, urlParams);
+            return response;
+        }
 
-            return default;
+        //Mari-Annen metodi aseman hakuun asemakoodin perusteella
+        public static async Task<Station> GetStationByCodeAsync(string stationShortCode)
+        {
+            Station[] asemat = await GetStations();
+            Station response = asemat.FirstOrDefault(x => x.stationShortCode.Equals(stationShortCode, StringComparison.OrdinalIgnoreCase));
+
+            //jos asema ei ole null, palautetaan Station-olio ja jos on, palautetaan oletusarvo
+            return (response != null ? response : default);
+        }
+
+        //metodi aseman hakuun nimen perusteella /Mari-Anne
+        public static async Task<Station> GetStationByNameAsync(string stationName)
+        {
+            stationName += " asema";
+            Station[] asemat = await GetStations();
+            Station response = asemat.FirstOrDefault(x => x.stationName.Equals(stationName, StringComparison.OrdinalIgnoreCase));
+
+            return response;
         }
     }
 }
