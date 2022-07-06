@@ -1,10 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using APIHelpers;
-using System.Threading.Tasks;
-using System.Linq;
-using System.Security.Cryptography.X509Certificates;
 
 namespace JunaAppi
 {
@@ -22,10 +16,10 @@ namespace JunaAppi
             public long version { get; set; }
             public string timetableType { get; set; }
             public DateTime timetableAcceptanceDate { get; set; }
-            public Timetablerow[] timeTableRows { get; set; }
+            public Timetablerow2[] timeTableRows { get; set; }
         }
 
-        public class Timetablerow
+        public class Timetablerow2
         {
             public string stationShortCode { get; set; }
             public int stationUICCode { get; set; }

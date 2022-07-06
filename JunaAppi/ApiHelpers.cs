@@ -5,9 +5,6 @@ using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using System.Text.Json;
 
-
-//HealthApista otettua koodia ja tässä ns. korjattu versio
-
 namespace APIHelpers
 {
     public static class ApiHelper
@@ -20,13 +17,18 @@ namespace APIHelpers
             {
                 AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate
             };
+
+           
             var client = new HttpClient(handler);
             client.BaseAddress = new Uri(url);
             client.DefaultRequestHeaders.Accept.Clear();
             client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
             client.DefaultRequestHeaders.AcceptEncoding.TryParseAdd("gzip");
             return client;
+
         }
+        
+ 
 
         public static async Task<T> RunAsync<T>(string url, string urlParams)
         {
