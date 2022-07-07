@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using APIHelpers;
 using JunaAppiLatest;
 using System.IO;
+using System.Threading.Channels;
 
 
 namespace JunaAppi
@@ -42,8 +43,12 @@ ___________|||______________________________|______________/
             string lähtöPäivä = omaDateTime.ToString("yyyy-MM-dd"); //7.7. ei tämä itseasiassa vaadi myöskään sitä to universal datetimeksi muuttamista, joten se poistettu
             Console.WriteLine("Annan junan numero");
             string junanNumero = Console.ReadLine();
-            TrainTrackingNext[] trainTrackingList = await TrainsApi.GetLocation(lähtöPäivä, junanNumero);
-            Console.WriteLine(trainTrackingList[0].nextStation); //tää toimii nyt, mutta palauttaa vain sen lyhenteen!
+            TrainTrackingNext[] trainTrackingList = await TrainsApi.GetLocation(lähtöPäivä, junanNumero); // Mari-Annen metodia hyödyntäen aseman 3-kirj. koodi aseman nimeksi
+            string stationShortCode = (trainTrackingList[0].nextStation); //tää toimii nyt, mutta palauttaa vain sen lyhenteen!
+            Station seuraavaAsema = await GetStationByCodeAsync(stationShortCode);
+            Console.WriteLine($"Juna {junanNumero}, seuraava asema: {seuraavaAsema.stationName}.");
+
+            
 
         }
 
@@ -130,8 +135,9 @@ ___________|||______________________________|______________/
             string asema = asemaInput[0].ToString().ToUpper() + asemaInput.Substring(1).ToLower();
             string junaHaku = $"{paiva.Date:yyyy-MM-dd}/{junaNumero}";
             TrainByDate[] juna = await TrainsApi.GetTrainByNumberAsync(junaHaku);
-            var asemaOlio = await TrainsApi.GetStationByNameAsync(asema);
+            var asemaOlio = await GetStationByNameAsync(asema);
             var asemanKoodi = asemaOlio.stationShortCode;
+
 
             string raide = await StationTrack(juna, asemanKoodi);
 
@@ -158,8 +164,43 @@ ___________|||______________________________|______________/
                         raide = pysahdys.commercialTrack;
                 }
             }
-
             return raide;
+        }
+
+        //Mari-Annen metodi aseman hakuun asemakoodin perusteella
+        public static async Task<Station> GetStationByCodeAsync(string stationShortCode)
+        {
+            Station[] asemat = await TrainsApi.GetStations();
+            Station response = asemat.FirstOrDefault(x => x.stationShortCode.Equals(stationShortCode, StringComparison.OrdinalIgnoreCase));
+
+            //jos asema ei ole null, palautetaan Station-olio ja jos on, palautetaan oletusarvo
+            return (response != null ? response : default);
+        }
+
+        //metodi aseman hakuun nimen perusteella /Mari-Anne
+        public static async Task<Station> GetStationByNameAsync(string stationName)
+        {
+            Station[] asemat = await TrainsApi.GetStations();
+            Station response;
+            try
+            {
+                response = asemat.FirstOrDefault(x =>
+                    x.stationName.Equals(stationName, StringComparison.OrdinalIgnoreCase));
+                if (response != null)
+                    return response;
+                else
+                {
+                    stationName += " asema";
+                    response = asemat.FirstOrDefault(x =>
+                        x.stationName.Equals(stationName, StringComparison.OrdinalIgnoreCase));
+                    return response;
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Asemaa ei löytynyt");
+                return default;
+            }
         }
 
         private static async Task MisMih()

@@ -69,6 +69,7 @@ namespace JunaAppi
             TrainByDate[] response = await ApiHelper.RunAsync<TrainByDate[]>(url, urlParams);
             return response;
         }
+<<<<<<< HEAD
 
         //Mari-Annen metodi aseman hakuun asemakoodin perusteella
         public static async Task<Station> GetStationByCodeAsync(string stationShortCode)
@@ -117,5 +118,7 @@ namespace JunaAppi
 
             }
         }
+=======
+>>>>>>> c5b21c1b5102168be2b79bd93db9c30bc9b85b13
     }
 }
