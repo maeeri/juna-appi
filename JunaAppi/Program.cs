@@ -267,7 +267,7 @@ ___________|||______________________________|______________/
             //Console.WriteLine(pet);
 
 
-            Console.WriteLine("Haluaisin tarkistaa, onko junassa:\n" +
+            Console.WriteLine("\nHaluaisin tarkistaa, onko junassa:\n" +
                               "A) lemmikki sallittu\n" +
                               "B) leikkipaikka\n" +
                               "C) ravintolavaunu\n" +
