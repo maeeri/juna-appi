@@ -45,7 +45,7 @@ ___________|||______________________________|______________/
             string junanNumero = Console.ReadLine();
             TrainTrackingNext[] trainTrackingList = await TrainsApi.GetLocation(lähtöPäivä, junanNumero); // Mari-Annen metodia hyödyntäen aseman 3-kirj. koodi aseman nimeksi
             string stationShortCode = (trainTrackingList[0].nextStation); //tää toimii nyt, mutta palauttaa vain sen lyhenteen!
-            Station seuraavaAsema = await TrainsApi.GetStationByCodeAsync(stationShortCode);
+            Station seuraavaAsema = await GetStationByCodeAsync(stationShortCode);
             Console.WriteLine($"Juna {junanNumero}, seuraava asema: {seuraavaAsema.stationName}.");
             
         }
