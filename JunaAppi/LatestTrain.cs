@@ -7,7 +7,7 @@ namespace JunaAppiLatest
 
     public class LatestTrain
     {
-        public TrainByDate[] Property1 { get; set; }
+        public TrainByDate[] TrainByDate { get; set; }
     }
 
     public class TrainByDate
