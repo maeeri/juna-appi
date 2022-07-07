@@ -40,10 +40,12 @@ ___________|||______________________________|______________/
             //junan numeron perusteella, oletuksena, että hakijaa kiinnostaa esim. juna jossa itse matkustaa, joten ohjelma antaa automaattisesti päivämääräksi /klonajaksi sen hetkisen ajan
             DateTime omaDateTime = DateTime.Now; //haussa pitää olla muodossa yyyy-MM-dd eikä kellonaikaa
             string lähtöPäivä = omaDateTime.ToString("yyyy-MM-dd"); //7.7. ei tämä itseasiassa vaadi myöskään sitä to universal datetimeksi muuttamista, joten se poistettu
-            Console.WriteLine("Annan junan numero");
+            Console.WriteLine("Anna junan numero");
             string junanNumero = Console.ReadLine();
-            TrainTrackingNext[] trainTrackingList = await TrainsApi.GetLocation(lähtöPäivä, junanNumero);
-            Console.WriteLine(trainTrackingList[0].nextStation); //tää toimii nyt, mutta palauttaa vain sen lyhenteen!
+            TrainTrackingNext[] trainTrackingList = await TrainsApi.GetLocation(lähtöPäivä, junanNumero); // Mari-Annen metodia hyödyntäen aseman 3-kirj. koodi aseman nimeksi
+            string stationShortCode = (trainTrackingList[0].nextStation); //tää toimii nyt, mutta palauttaa vain sen lyhenteen!
+            Station seuraavaAsema = await TrainsApi.GetStationByCodeAsync(stationShortCode);
+            Console.WriteLine($"Juna {junanNumero}, seuraava asema: {seuraavaAsema.stationName}.");
             
         }
 
@@ -70,20 +72,22 @@ ___________|||______________________________|______________/
             //Akin valikko
             Console.WriteLine("Vaihtoehtosi:\n" +
                               "1) Mistä-Mihin\n" +
-                              "2) Ajoissa\n" +
-                              "3) Seuraava Pysäkki\n" +
+                              "2) Hae seuraava asema junalle, jossa matkustat.\n" +
+                              "3) \n" +
                               "4) Hae raide, jolla juna pysähtyy\n" +
                               "5) Junan Palvelut\n" +
                               "6) Poistu");
+            Console.WriteLine(Environment.NewLine);
+            Console.ForegroundColor = ConsoleColor.White;
             switch (Console.ReadLine())
             {
                 case "1":
                     MisMih();
                     return true;
                 case "2":
+                    GetNextStation();
                     return true;
                 case "3":
-                    GetNextStation();
                     return true;
                 case "4":
                     FindTrack();
