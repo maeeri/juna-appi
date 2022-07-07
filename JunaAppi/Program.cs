@@ -48,8 +48,6 @@ ___________|||______________________________|______________/
             Station seuraavaAsema = await GetStationByCodeAsync(stationShortCode);
             Console.WriteLine($"Juna {junanNumero}, seuraava asema: {seuraavaAsema.stationName}.");
 
-            
-
         }
 
         static async Task Main(string[] args)
@@ -75,29 +73,27 @@ ___________|||______________________________|______________/
             //Akin valikko
             Console.WriteLine("Vaihtoehtosi:\n" +
                               "1) Mistä-Mihin\n" +
-                              "2) Ajoissa\n" +
-                              "3) Seuraava Pysäkki\n" +
-                              "4) Hae raide, jolla juna pysähtyy\n" +
-                              "5) Junan Palvelut\n" +
-                              "6) Poistu");
-
+                              "2) Hae seuraava asema\n" +
+                              "3) Hae raide, jolla juna pysähtyy\n" +
+                              "4) Junan Palvelut\n" +
+                              "5) Poistu");
+            
             switch (Console.ReadLine())
             {
                 case "1":
                     MisMih();
+                    Console.WriteLine(Environment.NewLine);
                     return true;
                 case "2":
-                    return true;
-                case "3":
                     GetNextStation();
                     return true;
-                case "4":
+                case "3":
                     FindTrack();
                     return true;
-                case "5":
+                case "4":
                     await ExtraOptions();
                     return true;
-                case "6":
+                case "5":
                     return false;
                 default:
                     return true;
