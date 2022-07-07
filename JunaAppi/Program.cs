@@ -7,6 +7,7 @@ using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using APIHelpers;
 using JunaAppiLatest;
+using System.IO;
 
 
 namespace JunaAppi
@@ -33,21 +34,30 @@ ___________|||______________________________|______________/
            ||| TIIMI KUTONEN                             /--------
 -----------'''---------------------------------------' ";
 
+        //Johanna miettii metodia, joka hakisi seuraavan pysäkin
 
-        //Johanna miettiin metodia, joka hakisi seuraavan pysäkin
         private static async Task GetNextStation()
         {
-            //junan numeron perusteella, 
-            Console.WriteLine("Syötä päivämäärä");
-            string lähtöPäivä = Console.ReadLine();
+            //junan numeron perusteella, oletuksena, että hakijaa kiinnostaa esim. juna jossa itse matkustaa, joten ohjelma antaa automaattisesti päivämääräksi /klonajaksi sen hetkisen ajan
+            DateTime omaDateTime = DateTime.Now; //haussa pitää olla muodossa yyyy-MM-dd eikä kellonaikaa
+            string lähtöPäivä = omaDateTime.ToString("yyyy-MM-dd"); //7.7. ei tämä itseasiassa vaadi myöskään sitä to universal datetimeksi muuttamista, joten se poistettu
             Console.WriteLine("Annan junan numero");
             string junanNumero = Console.ReadLine();
+<<<<<<< HEAD
             TrainTrackingLatest trackedTrain = await TrainsApi.GetLocation(lähtöpäivä, junanNumero);
         }
 
 
         static async Task Main(string[] args)
 
+=======
+            TrainTrackingNext[] trainTrackingList = await TrainsApi.GetLocation(lähtöPäivä, junanNumero);
+            Console.WriteLine(trainTrackingList[0].nextStation); //tää toimii nyt, mutta palauttaa vain sen lyhenteen!
+            //string stationShortCode = Console.ReadLine();
+           
+        }
+        static void Main(string[] args)
+>>>>>>> 668e5c998ce9ca4d4fe2408155bd80d34fcc9288
         {
             bool valikko = true;
             while (valikko)
@@ -58,10 +68,7 @@ ___________|||______________________________|______________/
 
         private static async Task<bool> MainMenu()
         {
-
-            //johanna lisää vähän visuaalisuutta
-            Console.BackgroundColor = ConsoleColor.Red; //koska Aki toivoi <3
-
+            Console.BackgroundColor = ConsoleColor.Red; //Akin toiveväri tähän
             Console.Clear();
             Console.ForegroundColor = ConsoleColor.White;
             Console.WriteLine(Environment.NewLine);
@@ -97,43 +104,62 @@ ___________|||______________________________|______________/
         //Mari-Annen metodi junalaiturien löytämiseen
         private static async Task FindTrack()
         {
-            //Station asema = await TrainsApi.GetStationByNameAsync("hämeenlinna");
-            //if (asema != null)
-            //    Console.WriteLine(asema.stationName);
-            //else
-            //    Console.WriteLine("Asemaa ei löytynyt :(");
+            DateTime paiva;
+            int junaNumero;
+            string asema;
 
-
-
-            Console.WriteLine("Minkä junan (numero) lähtöraiteen haluat hakea?");
-            int.TryParse(Console.ReadLine(), out int junaNumero);
-            //Console.WriteLine("Minkä aseman tiedot haluat?");
-            //string asemaRaide = Console.ReadLine().ToLower();
-
-            string tanaan = DateTime.Today.ToString("yyyy-MM-dd");
-            string param = $"{tanaan}/{junaNumero.ToString()}/";
-            LatestTrain[] junat = await TrainsApi.GetTrainByNumber(param);
-
-            Console.WriteLine();
-            foreach (var juna in junat)
+            while (true)
             {
-                if (junat != null)
+                try
                 {
-                    Console.WriteLine(juna.Property1[0].timeTableRows[0].commercialTrack);
+                    Console.WriteLine("Minä päivänä matkustat? (VVVV/KK/PP)");
+                    DateTime.TryParse(Console.ReadLine(), out paiva);
+                    Console.WriteLine("Minkä junan (numero) lähtöraiteen haluat hakea?");
+                    int.TryParse(Console.ReadLine(), out junaNumero);
+                    Console.WriteLine("Minkä aseman tiedot haluat?");
+                    asema = Console.ReadLine();
                 }
-                else
+                catch
                 {
-                    Console.WriteLine("Ei löytynyt :(");
+                    continue;
                 }
+                break;
+            }
 
-                Console.WriteLine("Hiya");
+            string junaHaku = $"{paiva.Date:yyyy-MM-dd}/{junaNumero}";
+            LatestTrain[] juna = await TrainsApi.GetTrainByNumberAsync(junaHaku);
+            var asemaOlio = await TrainsApi.GetStationByNameAsync(asema);
+            var asemanKoodi = asemaOlio.stationShortCode;
+
+            string raide = await StationTrack(juna, asemanKoodi);
+
+            if (raide != null)
+            {
+                Console.WriteLine($"Junasi {junaNumero} pysähtyy aseman {asema} laiturilla {raide}.");
+            }
+            else
+            {
+                Console.WriteLine("Hmm. Jostain syystä joko junaa, asemaa tai raidetta ei löytynyt.");
             }
         }
 
-        //Mari-Annen metodi juna-aseman ja junan yhdistämiseen
-        private static async Task StationTrack()
+        //Mari-Annen metodi juna-aseman ja junan yhdistämiseen juna = LatestTrain-olio, koodi = aseman koodi
+        private static async Task<string> StationTrack(LatestTrain[] juna, string koodi)
         {
+            string raide = null;
 
+            foreach (var etappi in juna)
+            {
+                foreach (var vali in etappi.TrainByDate)
+                {
+                    foreach (var pysahdys in vali.timeTableRows)
+                    {
+                        if (pysahdys.stationShortCode == koodi)
+                            raide = pysahdys.commercialTrack;
+                    }
+                }
+            }
+            return raide;
         }
 
         private static async Task MisMih()
@@ -144,43 +170,34 @@ ___________|||______________________________|______________/
                 try
                 {
                     Console.WriteLine("Mistä olet Lähdössä");
-                    string lahto = Console.ReadLine().ToUpper();
+                    string lahto = Console.ReadLine();
 
                     Console.WriteLine("Minne olet Menossa");
-                    string saapuminen = Console.ReadLine().ToUpper();
+                    string saapuminen = Console.ReadLine();
 
-                    JunaAppiReitit.ReittiLatest[] reitti = await TrainsApi.HaeReitti(lahto, saapuminen);
+                    /*Console.WriteLine("Minä päivänä olet menossa?");
+                    DateTime paiva = Convert.ToDateTime(Console.ReadLine());*/
+
+                    Reitti reitti = await TrainsApi.HaeReitti(lahto, saapuminen);
 
                     if (reitti == null)
                         Console.WriteLine("\nJunaa ei löydy");
 
-
-                    else
-                    Console.WriteLine("Lähtö asema: " + lahto);
-                    Console.WriteLine("Saapuminen asemalle: " + saapuminen);
-                    Rejtti(reitti);
-                    
-                        
+                    /*else
+                        Rejtti(reitti);*/
                 }
                 catch (FormatException)
                 {
 
-                    Console.WriteLine("_(-.-)_");
+                    Console.WriteLine("-.-");
                     continue;
                 }
 
                 break;
             }
+
+
         }
-            private static void Rejtti(JunaAppiReitit.ReittiLatest[] reitti)
-             {
-            
-                Console.WriteLine("  Reittisi tiedot:");
-                Console.WriteLine($"  Junan numero: {reitti[1].trainNumber}");
-                Console.WriteLine($"  Junan lähtöpäivä: {reitti[1].departureDate}");
-                Console.WriteLine("\nVaihtoehtosi:\n1) Mistä-Mihin\n2) Ajoissa\n3) Seuraava Pysäkki\n4) Vaihtoraide\n5) Junan Palvelut\n6) Poistu");
-                //Console.WriteLine($"  Reitti lähtöasema: {reitti[1].timeTableRows.stationShortCode}");
-            }
 
         private static async Task ExtraOptions()
         {
@@ -272,6 +289,27 @@ Console.WriteLine($"  Reitti carbohydrates: {rejtti.timeTableRows.countryCode}")
 
 
 
-    }
-}
 
+            
+
+
+            //Console.WriteLine("Mitä pitäisi olla vaunussa?");
+            //string answer = Console.ReadLine();
+
+            //Console.WriteLine(TrainsApi.HaeJunanPalvelut());
+            //Console.ReadLine();
+        }
+    }
+            /*private static void Rejtti(Reitti rejtti)
+            {
+            Console.WriteLine("  Reittisi tiedot:");
+            Console.WriteLine($"  Reitti lähtö: {rejtti.operatorShortCode}");
+            Console.WriteLine($"  Reitti saapuminen: {rejtti.operatorShortCode}");
+            Console.WriteLine($"  Reitti lähtöaika: {rejtti.departureDate}");
+            Console.WriteLine($"  Reitti carbohydrates: {rejtti.timeTableRows.countryCode}");
+         }*/
+
+<<<<<<< HEAD
+=======
+    
+>>>>>>> 668e5c998ce9ca4d4fe2408155bd80d34fcc9288
