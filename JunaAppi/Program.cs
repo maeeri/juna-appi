@@ -39,15 +39,12 @@ ___________|||______________________________|______________/
         {
             //junan numeron perusteella, oletuksena, että hakijaa kiinnostaa esim. juna jossa itse matkustaa, joten ohjelma antaa automaattisesti päivämääräksi /klonajaksi sen hetkisen ajan
             DateTime omaDateTime = DateTime.Now; //haussa pitää olla muodossa yyyy-MM-dd eikä kellonaikaa
-            string
-                lähtöPäivä =
-                    omaDateTime.ToString(
-                        "yyyy-MM-dd"); //7.7. ei tämä itseasiassa vaadi myöskään sitä to universal datetimeksi muuttamista, joten se poistettu
+            string lähtöPäivä =omaDateTime.ToString("yyyy-MM-dd"); //7.7. ei tämä itseasiassa vaadi myöskään sitä to universal datetimeksi muuttamista, joten se poistettu
             Console.WriteLine("Annan junan numero");
             string junanNumero = Console.ReadLine();
             TrainTrackingNext[] trainTrackingList = await TrainsApi.GetLocation(lähtöPäivä, junanNumero);
             Console.WriteLine(trainTrackingList[0].nextStation); //tää toimii nyt, mutta palauttaa vain sen lyhenteen!
-            //string stationShortCode = Console.ReadLine();
+            
         }
 
         static void Main(string[] args)
