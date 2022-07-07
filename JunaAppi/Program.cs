@@ -162,10 +162,10 @@ ___________|||______________________________|______________/
              {
             
                 Console.WriteLine("  Reittisi tiedot:");
-                Console.WriteLine($"  Junan numero: {reitti[1].trainNumber}");
-                Console.WriteLine($"  Junan lähtöpäivä: {reitti[1].departureDate}");
+                Console.WriteLine($"  Junan numero: {reitti[0].trainNumber}");
+                Console.WriteLine($"  Junan lähtöpäivä: {reitti[0].departureDate}");
                 Console.WriteLine("\nVaihtoehtosi:\n1) Mistä-Mihin\n2) Ajoissa\n3) Seuraava Pysäkki\n4) Vaihtoraide\n5) Junan Palvelut\n6) Poistu");
-                //Console.WriteLine($"  Reitti lähtöasema: {reitti[1].timeTableRows.stationShortCode}");
+                
             }
 
             private static async Task ExtraOptions()
