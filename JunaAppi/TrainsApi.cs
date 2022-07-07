@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 using System.Linq;
 using System.Net.Sockets;
 using System.Security.Cryptography.X509Certificates;
+using JunaAppiReitit;
+using JunaAppiLatest;
 
 namespace JunaAppi
 {
@@ -22,15 +24,15 @@ namespace JunaAppi
               
         }
         //johanna teki edellisen mallin mukaan
-        public static async Task<TrainTrackingLatest> GetLocation(string junanNumero)
+        public static async Task<TrainTrackingLatest> GetLocation(string lähtöpäivä, string junanNumero)
         {
 
-            string urlParams = $"train-tracking/latest/{junanNumero}"; //muutettu train-trackinginsta train-tracking/latest/ koska tämän perään voi sijoittaa {train_number} arvon
+            string urlParams = $"train-tracking/{lähtöpäivä}/{junanNumero}"; //muutettu 6.7. train-tracking/lähtöpäivä junanNumero -hauksi
             TrainTrackingLatest response = await ApiHelper.RunAsync<TrainTrackingLatest>(url, urlParams);
             return response;
         }
 
-        //Otetaan yhetyttä Apiin (Annan versio ryhmän avulla).
+        //Yhteys Apiin ja junan haku pvm ja junanumeron perustella. /ANNA
 
         public static async Task<Vaunu> HaeJunanPalvelut(string date, int junanro)
         {
@@ -45,11 +47,11 @@ namespace JunaAppi
 
 
         //Akin junan haku apista
-        public static async Task<Reitti> HaeReitti(string lahto, string saapuminen)
+        public static async Task<ReittiLatest[]> HaeReitti(string lahto, string saapuminen)
         {
             string urlParams = "live-trains/station/" + lahto + "/" + saapuminen;
 
-            Reitti reitti = await ApiHelper.RunAsync<Reitti>(url, urlParams);
+            ReittiLatest[] reitti = await ApiHelper.RunAsync<ReittiLatest[]>(url,urlParams);
 
             return reitti;
         }
@@ -60,6 +62,14 @@ namespace JunaAppi
             string urlParams = "metadata/stations";
 
             Station[] response = await ApiHelper.RunAsync<Station[]>(url, urlParams);
+            return response;
+        }
+
+        //Mari-Annen tekemä muokkaus LatestTrain-olion hakuun
+        public static async Task<LatestTrain[]> GetTrainByNumber(string input)
+        {
+            string urlParams = "trains/" + input;
+            LatestTrain[] response = await ApiHelper.RunAsync<LatestTrain[]>(url, urlParams);
             return response;
         }
 
@@ -76,11 +86,26 @@ namespace JunaAppi
         //metodi aseman hakuun nimen perusteella /Mari-Anne
         public static async Task<Station> GetStationByNameAsync(string stationName)
         {
-            stationName += " asema";
             Station[] asemat = await GetStations();
-            Station response = asemat.FirstOrDefault(x => x.stationName.Equals(stationName, StringComparison.OrdinalIgnoreCase));
-
-            return response;
+            Station response;
+            try
+            {
+                    response = asemat.FirstOrDefault(x =>
+                        x.stationName.Equals(stationName, StringComparison.OrdinalIgnoreCase));
+                    return response;
+            }
+            catch (NullReferenceException e)
+            {
+                    stationName += " asema";
+                    response = asemat.FirstOrDefault(x =>
+                        x.stationName.Equals(stationName, StringComparison.OrdinalIgnoreCase));
+                    return response;
+            }
+            catch (Exception e)
+            {
+                    Console.WriteLine("Asemaa ei löytynyt");
+                    return default;
+            }
         }
     }
 }
