@@ -7,10 +7,10 @@ namespace JunaAppiLatest
 
     public class LatestTrain
     {
-        public TrainLatest[] Property1 { get; set; }
+        public TrainByDate[] TrainByDate { get; set; }
     }
 
-    public class TrainLatest
+    public class TrainByDate
     {
         public int trainNumber { get; set; }
         public string departureDate { get; set; }
