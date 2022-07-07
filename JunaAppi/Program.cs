@@ -18,14 +18,16 @@ namespace JunaAppi
         //johanna taiteili tähän taas asciiartia
         private static readonly string AsciiArt = @"
                                                                         
- _________________________________________________________________________
-        __   _     _   _     _   __         __     ____     ____       __
-        /    /    /    /|   /    / |        / |    /    )   /    )     / 
--------/----/----/----/-| -/----/__|-------/__|---/____/---/____/-----/--
-      /    /    /    /  | /    /   | ===  /   |  /        /          /   
-_(___/____(____/____/___|/____/____|_____/____|_/________/________ _/_ __
+ ____________________________________________________________________________
+        __   __     _  __     _  ___        ___     _____    _____      ___
+        //   //    /   //|   /   // |       // |    //    )  //    )    // 
+-------//---//----/---//-| -/---//__|------//__|---//____/--//____/----//--
+      //   //    /   //  | /   //   | === //   |  //       //         //   
+_(___//___((____/___//___|/___//____|____//____|_//_______//_______ _//_ __";
 
-  ___________   _______________________________________^__
+        private static readonly string AsciiArt2 = @"
+
+  ___________   _______________________________________^__  _______________
  ___   ___ |||  ___   ___   ___    ___ ___  |   __  ,----\
 |   | |   |||| |   | |   | |   |  |   |   | |  |  | |_____\
 |___| |___|||| |___| |___| |___|  | O | O | |  |  |        \
@@ -68,16 +70,17 @@ ___________|||______________________________|______________/
             Console.ForegroundColor = ConsoleColor.White;
             Console.WriteLine(Environment.NewLine);
             Console.WriteLine(AsciiArt);
+            Console.WriteLine(AsciiArt2);
             Console.WriteLine(Environment.NewLine);
             Console.ForegroundColor = ConsoleColor.Yellow;
 
             //Akin valikko
-            Console.WriteLine("Vaihtoehtosi:\n" +
-                              "1) Mistä-Mihin\n" +
-                              "2) Hae seuraava asema\n" +
-                              "3) Hae raide, jolla juna pysähtyy\n" +
-                              "4) Junan Palvelut\n" +
-                              "5) Poistu");
+            Console.WriteLine("  Vaihtoehtosi:\n" +
+                              "  1) Mistä-Mihin\n" +
+                              "  2) Hae seuraava asema\n" +
+                              "  3) Hae raide, jolla juna pysähtyy\n" +
+                              "  4) Junan Palvelut\n" +
+                              "  5) Poistu");
             
 
             switch (Console.ReadLine())
@@ -112,6 +115,7 @@ ___________|||______________________________|______________/
             {
                 try
                 {
+                    Console.ForegroundColor = ConsoleColor.White;
                     Console.WriteLine("Minä päivänä matkustat? (VVVV/KK/PP)");
                     paiva = ValidateDateTimeInput(Console.ReadLine());
                     Console.WriteLine("Minkä junan (numero) lähtöraiteen haluat hakea?");
@@ -207,6 +211,7 @@ ___________|||______________________________|______________/
             {
                 try
                 {
+                    Console.ForegroundColor = ConsoleColor.White;
                     Console.WriteLine("Mistä olet Lähdössä");
                     string lahto = Console.ReadLine().ToUpper();
 
@@ -221,8 +226,9 @@ ___________|||______________________________|______________/
                         Console.WriteLine("\nJunaa ei löydy");
 
                     else
-
+                        Console.ForegroundColor = ConsoleColor.White;
                     Console.WriteLine("\tReittisi tiedot:");
+                    Console.ForegroundColor = ConsoleColor.DarkYellow;
                     Console.WriteLine("\tLähtö asema: " + lahto);
                     Console.WriteLine("\tSaapuminen asemalle: " + saapuminen);
                     Rejtti(reitti);
@@ -241,7 +247,7 @@ ___________|||______________________________|______________/
 
         private static void Rejtti(JunaAppiReitit.ReittiLatest[] reitti)
         {
-
+            Console.ForegroundColor = ConsoleColor.White;
             Console.WriteLine($"\tJunan numero: {reitti[0].trainNumber}");
             Console.WriteLine($"\tJunan lähtöpäivä: {reitti[0].departureDate}");
            
@@ -251,7 +257,7 @@ ___________|||______________________________|______________/
         //Annan rakentama metodi
         private static async Task ExtraOptions()
         {
-            
+            Console.ForegroundColor = ConsoleColor.White;
             Console.WriteLine("Minä päivänä juna lähtee? esim. YYYY-MM-DD");
             string date = Console.ReadLine();
 
@@ -263,7 +269,7 @@ ___________|||______________________________|______________/
 
             Console.WriteLine(date + junanro);
 
-
+            Console.ForegroundColor = ConsoleColor.Yellow;
             Console.WriteLine("Haluaisin tarkistaa, onko junassa:\n" +
                               "A) lemmikki sallittu\n" +
                               "B) leikkipaikka\n" +
@@ -274,8 +280,8 @@ ___________|||______________________________|______________/
 
                 case "A":
                 {
-
-                    var pet = vaunu.journeySections[0].wagons.Any(pet => pet.pet == true);
+                    Console.ForegroundColor = ConsoleColor.White;
+                        var pet = vaunu.journeySections[0].wagons.Any(pet => pet.pet == true);
                     Console.WriteLine(pet
                         ? "Lemmikinne on tervetullut!"
                         : "Valitettavasti lemmikit ei ole sallittuja.");
@@ -325,6 +331,7 @@ ___________|||______________________________|______________/
                 }
                 else
                 {
+                    Console.ForegroundColor = ConsoleColor.White;
                     Console.WriteLine("Ole hyvä ja anna pelkästään numero:");
                     input = Console.ReadLine();
                     continue;
@@ -345,6 +352,7 @@ ___________|||______________________________|______________/
                 }
                 else
                 {
+                    Console.ForegroundColor = ConsoleColor.White;
                     Console.WriteLine("Ole hyvä ja anna päivämäärä muodossa (VVVV/KK/PP):");
                     input = Console.ReadLine();
                     continue;
