@@ -61,10 +61,10 @@ namespace JunaAppi
         }
 
         //Mari-Annen tekemä muokkaus LatestTrain-olion hakuun
-        public static async Task<LatestTrain[]> GetTrainByNumberAsync(string input)
+        public static async Task<TrainByDate[]> GetTrainByNumberAsync(string input)
         {
             string urlParams = "trains/" + input;
-            LatestTrain[] response = await ApiHelper.RunAsync<LatestTrain[]>(url, urlParams);
+            TrainByDate[] response = await ApiHelper.RunAsync<TrainByDate[]>(url, urlParams);
             return response;
         }
 

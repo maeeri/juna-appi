@@ -94,7 +94,7 @@ ___________|||______________________________|______________/
         {
             DateTime paiva;
             int junaNumero;
-            string asema;
+            string asemaInput;
 
             while (true)
             {
@@ -105,7 +105,7 @@ ___________|||______________________________|______________/
                     Console.WriteLine("Minkä junan (numero) lähtöraiteen haluat hakea?");
                     int.TryParse(Console.ReadLine(), out junaNumero);
                     Console.WriteLine("Minkä aseman tiedot haluat?");
-                    asema = Console.ReadLine();
+                    asemaInput = Console.ReadLine();
                 }
                 catch
                 {
@@ -114,8 +114,9 @@ ___________|||______________________________|______________/
                 break;
             }
 
+            string asema = asemaInput[0].ToString().ToUpper() + asemaInput.Substring(1).ToLower();
             string junaHaku = $"{paiva.Date:yyyy-MM-dd}/{junaNumero}";
-            LatestTrain[] juna = await TrainsApi.GetTrainByNumberAsync(junaHaku);
+            TrainByDate[] juna = await TrainsApi.GetTrainByNumberAsync(junaHaku);
             var asemaOlio = await TrainsApi.GetStationByNameAsync(asema);
             var asemanKoodi = asemaOlio.stationShortCode;
 
@@ -131,20 +132,17 @@ ___________|||______________________________|______________/
             }
         }
 
-        //Mari-Annen metodi juna-aseman ja junan yhdistämiseen juna = LatestTrain-olio, koodi = aseman koodi
-        private static async Task<string> StationTrack(LatestTrain[] juna, string koodi)
+        //Mari-Annen metodi juna-aseman ja junan yhdistämiseen juna = TrainByDate-olio, koodi = aseman koodi
+        private static async Task<string> StationTrack(TrainByDate[] juna, string koodi)
         {
             string raide = null;
 
-            foreach (var etappi in juna)
+            foreach (var vali in juna)
             {
-                foreach (var vali in etappi.TrainByDate)
+                foreach (var pysahdys in vali.timeTableRows)
                 {
-                    foreach (var pysahdys in vali.timeTableRows)
-                    {
-                        if (pysahdys.stationShortCode == koodi)
-                            raide = pysahdys.commercialTrack;
-                    }
+                    if (pysahdys.stationShortCode == koodi)
+                        raide = pysahdys.commercialTrack;
                 }
             }
             return raide;
