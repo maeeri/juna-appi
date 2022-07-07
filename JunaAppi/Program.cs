@@ -74,19 +74,12 @@ ___________|||______________________________|______________/
             //Akin valikko
             Console.WriteLine("Vaihtoehtosi:\n" +
                               "1) Mistä-Mihin\n" +
-<<<<<<< HEAD
-                              "2) Ajoissa\n" +
-                              "3) Seuraava Pysäkki\n" +
-                              "4) Hae raide, jolla juna pysähtyy\n" +
-                              "5) Junan Palvelut\n" +
-                              "6) Poistu");
-=======
                               "2) Hae seuraava asema\n" +
                               "3) Hae raide, jolla juna pysähtyy\n" +
                               "4) Junan Palvelut\n" +
                               "5) Poistu");
             
->>>>>>> 2a56c68d11a9cd70cf177e12571b28b9928cb8ae
+
             switch (Console.ReadLine())
             {
                 case "1":
@@ -95,13 +88,8 @@ ___________|||______________________________|______________/
                 case "2":
                     await GetNextStation();
                     return true;
-<<<<<<< HEAD
-                case "4":
-                    await FindTrack();
-=======
                 case "3":
                     FindTrack();
->>>>>>> 2a56c68d11a9cd70cf177e12571b28b9928cb8ae
                     return true;
                 case "4":
                     await ExtraOptions();
