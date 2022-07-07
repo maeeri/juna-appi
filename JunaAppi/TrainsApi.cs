@@ -68,41 +68,5 @@ namespace JunaAppi
             TrainByDate[] response = await ApiHelper.RunAsync<TrainByDate[]>(url, urlParams);
             return response;
         }
-
-        //Mari-Annen metodi aseman hakuun asemakoodin perusteella
-        public static async Task<Station> GetStationByCodeAsync(string stationShortCode)
-        {
-            Station[] asemat = await GetStations();
-            Station response = asemat.FirstOrDefault(x => x.stationShortCode.Equals(stationShortCode, StringComparison.OrdinalIgnoreCase));
-
-            //jos asema ei ole null, palautetaan Station-olio ja jos on, palautetaan oletusarvo
-            return (response != null ? response : default);
-        }
-
-        //metodi aseman hakuun nimen perusteella /Mari-Anne
-        public static async Task<Station> GetStationByNameAsync(string stationName)
-        {
-            Station[] asemat = await GetStations();
-            Station response;
-            try
-            {
-                response = asemat.FirstOrDefault(x =>
-                    x.stationName.Equals(stationName, StringComparison.OrdinalIgnoreCase));
-                if (response != null)
-                    return response;
-                else
-                {
-                    stationName += " asema";
-                    response = asemat.FirstOrDefault(x =>
-                        x.stationName.Equals(stationName, StringComparison.OrdinalIgnoreCase));
-                    return response;
-                }
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine("Asemaa ei löytynyt");
-                return default;
-            }
-        }
     }
 }
