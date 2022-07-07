@@ -260,38 +260,58 @@ ___________|||______________________________|______________/
 
             Console.WriteLine(date + junanro);
 
-            var pet = vaunu.journeySections[0].wagons.Any(pet => pet.pet == true);
-            Console.WriteLine(pet);
+            
 
-            /*Console.WriteLine("Haluaisin tarkistaa, onko junassa:\n1) lemmikki sallittu\n2) leikkipaikka \n3) ravintolavaunu\n4) inva-paikat ");
+            Console.WriteLine("Haluaisin tarkistaa, onko junassa:\n1) lemmikki sallittu\n2) leikkipaikka \n3) ravintolavaunu\n4) inva-paikat ");
             string inputChoice = Console.ReadLine();
 
-            switch (inputChoice)
+
+            Console.WriteLine("Haluaisin tarkistaa, onko junassa:\n" +
+                              "A) lemmikki sallittu\n" +
+                              "B) leikkipaikka\n" +
+                              "C) ravintolavaunu\n" +
+                              "D) esteettömyys\n");
+            switch (Console.ReadLine().ToUpper())
             {
-                case "1":
-                {
-                    var pet = vaunu.journeySections[0].wagons.Any(pet => pet.pet == true);
-                    Console.WriteLine(pet);
-                    break;
-                }
-                case "2":
-                {
-                    var pet = vaunu.journeySections[0].wagons.Any(pet => pet.pet == true);
-                    Console.WriteLine(pet);
-                    break;
-                }
-                case "3":
-                {
-                    var pet = vaunu.journeySections[0].wagons.Any(pet => pet.pet == true);
-                    Console.WriteLine(pet);
-                    break;
-                }
-                case "4":
-                {
-                    var pet = vaunu.journeySections[0].wagons.Any(pet => pet.pet == true);
-                    Console.WriteLine(pet);
-                    break;
-                }*/
+
+                case "A":
+                    {
+
+                        var pet = vaunu.journeySections[0].wagons.Any(pet => pet.pet == true);
+                        Console.WriteLine(pet
+                            ? "Lemmikinne on tervetullut!"
+                            : "Valitettavasti lemmikit ei ole sallittuja.");
+                        Console.ReadLine();
+                        break;
+                    }
+                case "B":
+                    {
+                        var playground = vaunu.journeySections[0].wagons.Any(playground => playground.playground == true);
+                        Console.WriteLine(playground
+                            ? "Leikkipaikka löytyy. Tervetuloa!"
+                            : "Valitettavasti tässä vuorossa ei ole leikkipaikkaa.");
+                        Console.ReadLine();
+                        break;
+                    }
+                case "C":
+                    {
+                        var catering = vaunu.journeySections[0].wagons.Any(catering => catering.catering == true);
+                        Console.WriteLine(catering
+                            ? "Junassa on ravintolavaunu. Tervetuloa!"
+                            : "Valitettavasti tässä vuorossa ei ole ravintolavaunua.");
+                        Console.ReadLine();
+                        break;
+                    }
+                case "D":
+                    {
+                        var disabled = vaunu.journeySections[0].wagons.Any(disabled => disabled.disabled == true);
+                        Console.WriteLine(disabled
+                            ? "Valitsemanne juna on esteetön. Tervetuloa!"
+                            : "Valitettavasti tämä vuoro ei ole esteetön.");
+                        Console.ReadLine();
+                        break;
+                    }
+            }
         }
 
         //validates int input /Mari-Anne
@@ -333,12 +353,6 @@ ___________|||______________________________|______________/
             }
             return newInput;
         }
-
-        //Console.WriteLine("Mitä pitäisi olla vaunussa?");
-        //string answer = Console.ReadLine();
-
-        //Console.WriteLine(TrainsApi.HaeJunanPalvelut());
-        //Console.ReadLine();
 
         //Johanna toi tänne omasta vanhasta koodistaan PressKey -toiminnon, joka helpottaa await -async käyttöä
         private static void PressKey()
