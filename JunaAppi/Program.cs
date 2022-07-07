@@ -39,14 +39,15 @@ ___________|||______________________________|______________/
         private static async Task GetNextStation()
         {
             //junan numeron perusteella, oletuksena, että hakijaa kiinnostaa esim. juna jossa itse matkustaa, joten ohjelma antaa automaattisesti päivämääräksi /klonajaksi sen hetkisen ajan
-            DateTime omaDateTime = DateTime.Now; //haussa pitää olla muodossa yyyy-MM-dd eikä kellonaikaa
-            string lähtöPäivä = omaDateTime.ToString("yyyy-MM-dd"); //7.7. ei tämä itseasiassa vaadi myöskään sitä to universal datetimeksi muuttamista, joten se poistettu
             Console.WriteLine("Annan junan numero");
             string junanNumero = Console.ReadLine();
+            DateTime omaDateTime = DateTime.Now; //haussa pitää olla muodossa yyyy-MM-dd eikä kellonaikaa
+            string lähtöPäivä = omaDateTime.ToString("yyyy-MM-dd"); //7.7. ei tämä itseasiassa vaadi myöskään sitä to universal datetimeksi muuttamista, joten se poistettu
             TrainTrackingNext[] trainTrackingList = await TrainsApi.GetLocation(lähtöPäivä, junanNumero); // Mari-Annen metodia hyödyntäen aseman 3-kirj. koodi aseman nimeksi
             string stationShortCode = (trainTrackingList[0].nextStation); //tää toimii nyt, mutta palauttaa vain sen lyhenteen!
             Station seuraavaAsema = await GetStationByCodeAsync(stationShortCode);
             Console.WriteLine($"Juna {junanNumero}, seuraava asema: {seuraavaAsema.stationName}.");
+            PressKey();
 
         }
 
@@ -55,7 +56,7 @@ ___________|||______________________________|______________/
             bool valikko = true;
             while (valikko)
             {
-                valikko = await MainMenu();
+                valikko = await MainMenu(); 
             }
         }
 
@@ -82,10 +83,9 @@ ___________|||______________________________|______________/
             {
                 case "1":
                     MisMih();
-                    Console.WriteLine(Environment.NewLine);
                     return true;
                 case "2":
-                    GetNextStation();
+                    await GetNextStation();
                     return true;
                 case "3":
                     FindTrack();
@@ -372,5 +372,14 @@ ___________|||______________________________|______________/
 
         //Console.WriteLine(TrainsApi.HaeJunanPalvelut());
         //Console.ReadLine();
+
+        //Johanna toi tänne omasta vanhasta koodistaan PressKey -toiminnon, joka helpottaa await -async käyttöä
+        private static void PressKey()
+        {
+            Console.ForegroundColor = ConsoleColor.Gray;
+            Console.Write("\nPaina 'Enter' jatkaaksesi... ");
+            Console.ReadKey(true);
+
+        }
     }
 }
