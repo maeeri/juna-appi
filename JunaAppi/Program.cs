@@ -39,16 +39,15 @@ ___________|||______________________________|______________/
         private static async Task GetNextStation()
         {
             //junan numeron perusteella, oletuksena, että hakijaa kiinnostaa esim. juna jossa itse matkustaa, joten ohjelma antaa automaattisesti päivämääräksi /klonajaksi sen hetkisen ajan
-            DateTime omaDateTime = DateTime.Now; //haussa pitää olla muodossa yyyy-MM-dd eikä kellonaikaa
-            string lähtöPäivä = omaDateTime.ToString("yyyy-MM-dd"); //7.7. ei tämä itseasiassa vaadi myöskään sitä to universal datetimeksi muuttamista, joten se poistettu
             Console.WriteLine("Annan junan numero");
             string junanNumero = Console.ReadLine();
+            DateTime omaDateTime = DateTime.Now; //haussa pitää olla muodossa yyyy-MM-dd eikä kellonaikaa
+            string lähtöPäivä = omaDateTime.ToString("yyyy-MM-dd"); //7.7. ei tämä itseasiassa vaadi myöskään sitä to universal datetimeksi muuttamista, joten se poistettu
             TrainTrackingNext[] trainTrackingList = await TrainsApi.GetLocation(lähtöPäivä, junanNumero); // Mari-Annen metodia hyödyntäen aseman 3-kirj. koodi aseman nimeksi
             string stationShortCode = (trainTrackingList[0].nextStation); //tää toimii nyt, mutta palauttaa vain sen lyhenteen!
             Station seuraavaAsema = await GetStationByCodeAsync(stationShortCode);
             Console.WriteLine($"Juna {junanNumero}, seuraava asema: {seuraavaAsema.stationName}.");
-
-            
+            PressKey();
 
         }
 
@@ -57,7 +56,7 @@ ___________|||______________________________|______________/
             bool valikko = true;
             while (valikko)
             {
-                valikko = await MainMenu();
+                valikko = await MainMenu(); 
             }
         }
 
@@ -75,11 +74,11 @@ ___________|||______________________________|______________/
             //Akin valikko
             Console.WriteLine("Vaihtoehtosi:\n" +
                               "1) Mistä-Mihin\n" +
-                              "2) Ajoissa\n" +
-                              "3) Seuraava Pysäkki\n" +
-                              "4) Hae raide, jolla juna pysähtyy\n" +
-                              "5) Junan Palvelut\n" +
-                              "6) Poistu");
+                              "2) Hae seuraava asema\n" +
+                              "3) Hae raide, jolla juna pysähtyy\n" +
+                              "4) Junan Palvelut\n" +
+                              "5) Poistu");
+            
 
             switch (Console.ReadLine())
             {
@@ -87,23 +86,21 @@ ___________|||______________________________|______________/
                     MisMih();
                     return true;
                 case "2":
+                    await GetNextStation();
                     return true;
+
                 case "3":
-                    GetNextStation();
+                    FindTrack();
+
                     return true;
                 case "4":
-                    FindTrack();
-                    return true;
-                case "5":
                     await ExtraOptions();
                     return true;
-                case "6":
+                case "5":
                     return false;
                 default:
                     return true;
             }
-
-           
         }
 
         //Mari-Annen metodi junalaiturien löytämiseen
@@ -124,8 +121,9 @@ ___________|||______________________________|______________/
                     Console.WriteLine("Minkä aseman tiedot haluat?");
                     asemaInput = Console.ReadLine();
                 }
-                catch
+                catch (Exception e)
                 {
+                    Console.WriteLine("Asemaa, junaa tai raidetta ei lötynyt. :(");
                     continue;
                 }
 
@@ -225,11 +223,11 @@ ___________|||______________________________|______________/
 
                     else
 
-                        Console.WriteLine("\tReittisi tiedot:");
+                    Console.WriteLine("\tReittisi tiedot:");
                     Console.WriteLine("\tLähtö asema: " + lahto);
                     Console.WriteLine("\tSaapuminen asemalle: " + saapuminen);
                     Rejtti(reitti);
-
+                    
                 }
                 catch (FormatException)
                 {
@@ -249,6 +247,7 @@ ___________|||______________________________|______________/
             Console.WriteLine("\nVaihtoehtosi:\n1) Mistä-Mihin\n2) Ajoissa\n3) Seuraava Pysäkki\n4) Vaihtoraide\n5) Junan Palvelut\n6) Poistu");
         }
 
+
         private static async Task ExtraOptions()
         {
             //var response = APIHelpers.RunAsync<Vaunu>(url, urlParams);
@@ -261,12 +260,15 @@ ___________|||______________________________|______________/
 
             Vaunu vaunu = await TrainsApi.HaeJunanPalvelut(date, junanro);
 
-            Console.WriteLine(date + " " + junanro);
+            Console.WriteLine(date + junanro);
 
-            //var pet = vaunu.journeySections[0].wagons.Any(pet => pet.pet == true);
-            //Console.WriteLine(pet);
+            var pet = vaunu.journeySections[0].wagons.Any(pet => pet.pet == true);
+            Console.WriteLine(pet);
 
+            /*Console.WriteLine("Haluaisin tarkistaa, onko junassa:\n1) lemmikki sallittu\n2) leikkipaikka \n3) ravintolavaunu\n4) inva-paikat ");
+            string inputChoice = Console.ReadLine();
 
+<<<<<<< HEAD
             Console.WriteLine("\nHaluaisin tarkistaa, onko junassa:\n" +
                               "A) lemmikki sallittu\n" +
                               "B) leikkipaikka\n" +
@@ -275,62 +277,36 @@ ___________|||______________________________|______________/
 
 
             switch (Console.ReadLine())
+=======
+            switch (inputChoice)
+>>>>>>> 7f137c6de878de3610305430397c1c82546bbbfd
             {
-                    
-                case "A":
+                case "1":
                 {
-                  
                     var pet = vaunu.journeySections[0].wagons.Any(pet => pet.pet == true);
-
-                    Console.WriteLine(pet
-                        ? "Lemmikinne on tervetullut!"
-                        : "Valitettavasti lemmikit ei ole sallittuja.");
-
-                    Console.ReadLine();
+                    Console.WriteLine(pet);
                     break;
-
                 }
-
-                case "B":
+                case "2":
                 {
-                    var playground = vaunu.journeySections[0].wagons.Any(playground => playground.playground == true);
-
-
-                    Console.WriteLine(playground
-                        ? "Leikkipaikka löytyy. Tervetuloa!"
-                        : "Valitettavasti tässä vuorossa ei ole leikkipaikkaa.");
-
-                    Console.ReadLine();
+                    var pet = vaunu.journeySections[0].wagons.Any(pet => pet.pet == true);
+                    Console.WriteLine(pet);
                     break;
                 }
-                case "C":
+                case "3":
                 {
-                    var catering = vaunu.journeySections[0].wagons.Any(catering => catering.catering == true);
-
-                    Console.WriteLine(catering
-                        ? "Junassa on ravintolavaunu. Tervetuloa!"
-                        : "Valitettavasti tässä vuorossa ei ole ravintolavaunua.");
-
-                        Console.ReadLine();
+                    var pet = vaunu.journeySections[0].wagons.Any(pet => pet.pet == true);
+                    Console.WriteLine(pet);
                     break;
                 }
-                case "D":
+                case "4":
                 {
-                    var disabled = vaunu.journeySections[0].wagons.Any(disabled => disabled.disabled == true);
-
-                    Console.WriteLine(disabled
-                        ? "Valitsemanne juna on esteetön. Tervetuloa!"
-                        : "Valitettavasti tämä vuoro ei ole esteetön.");
-
-                        Console.ReadLine();
-
+                    var pet = vaunu.journeySections[0].wagons.Any(pet => pet.pet == true);
+                    Console.WriteLine(pet);
                     break;
-                }
-
-
-            }
- 
+                }*/
         }
+
         //validates int input /Mari-Anne
         public static int ValidateIntInput(string input)
         {
@@ -376,5 +352,14 @@ ___________|||______________________________|______________/
 
         //Console.WriteLine(TrainsApi.HaeJunanPalvelut());
         //Console.ReadLine();
+
+        //Johanna toi tänne omasta vanhasta koodistaan PressKey -toiminnon, joka helpottaa await -async käyttöä
+        private static void PressKey()
+        {
+            Console.ForegroundColor = ConsoleColor.Gray;
+            Console.Write("\nPaina 'Enter' jatkaaksesi... ");
+            Console.ReadKey(true);
+
+        }
     }
 }
