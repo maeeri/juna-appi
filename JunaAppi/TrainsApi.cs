@@ -7,6 +7,7 @@ using System.Linq;
 using System.Net.Sockets;
 using System.Security.Cryptography.X509Certificates;
 using JunaAppiLatest;
+using JunaAppiReitit;
 
 namespace JunaAppi
 {
@@ -43,11 +44,11 @@ namespace JunaAppi
         }
 
         //Akin junan haku apista
-        public static async Task<Reitti> HaeReitti(string lahto, string saapuminen)
+        public static async Task<ReittiLatest[]> HaeReitti(string lahto, string saapuminen)
         {
             string urlParams = "live-trains/station/" + lahto + "/" + saapuminen;
 
-            Reitti reitti = await ApiHelper.RunAsync<Reitti>(url, urlParams);
+            ReittiLatest[] reitti = await ApiHelper.RunAsync<ReittiLatest[]>(url, urlParams);
 
             return reitti;
         }
@@ -62,10 +63,10 @@ namespace JunaAppi
         }
 
         //Mari-Annen tekemä muokkaus LatestTrain-olion hakuun
-        public static async Task<LatestTrain[]> GetTrainByNumberAsync(string input)
+        public static async Task<TrainByDate[]> GetTrainByNumberAsync(string input)
         {
             string urlParams = "trains/" + input;
-            LatestTrain[] response = await ApiHelper.RunAsync<LatestTrain[]>(url, urlParams);
+            TrainByDate[] response = await ApiHelper.RunAsync<TrainByDate[]>(url, urlParams);
             return response;
         }
 
