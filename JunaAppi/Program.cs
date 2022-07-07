@@ -83,13 +83,13 @@ ___________|||______________________________|______________/
             switch (Console.ReadLine())
             {
                 case "1":
-                    MisMih();
+                    await MisMih();
                     return true;
                 case "2":
                     await GetNextStation();
                     return true;
                 case "3":
-                    FindTrack();
+                    await FindTrack();
                     return true;
                 case "4":
                     await ExtraOptions();
@@ -145,6 +145,7 @@ ___________|||______________________________|______________/
             {
                 Console.WriteLine("Hmm. Jostain syystä joko junaa, asemaa tai raidetta ei löytynyt.");
             }
+            PressKey();
         }
 
         //Mari-Annen metodi juna-aseman ja junan yhdistämiseen juna = TrainByDate-olio, koodi = aseman koodi
@@ -225,6 +226,7 @@ ___________|||______________________________|______________/
                     Console.WriteLine("\tLähtö asema: " + lahto);
                     Console.WriteLine("\tSaapuminen asemalle: " + saapuminen);
                     Rejtti(reitti);
+                    PressKey();
                     
                 }
                 catch (FormatException)
@@ -242,14 +244,15 @@ ___________|||______________________________|______________/
 
             Console.WriteLine($"\tJunan numero: {reitti[0].trainNumber}");
             Console.WriteLine($"\tJunan lähtöpäivä: {reitti[0].departureDate}");
-            Console.WriteLine("\nVaihtoehtosi:\n1) Mistä-Mihin\n2) Ajoissa\n3) Seuraava Pysäkki\n4) Vaihtoraide\n5) Junan Palvelut\n6) Poistu");
+           
         }
 
 
+        //Annan rakentama metodi
         private static async Task ExtraOptions()
         {
-            //var response = APIHelpers.RunAsync<Vaunu>(url, urlParams);
-            Console.WriteLine("Minä päivänä juna lähtee?");
+            
+            Console.WriteLine("Minä päivänä juna lähtee? esim. YYYY-MM-DD");
             string date = Console.ReadLine();
 
             Console.WriteLine("Junan numero:");
@@ -259,11 +262,6 @@ ___________|||______________________________|______________/
             Vaunu vaunu = await TrainsApi.HaeJunanPalvelut(date, junanro);
 
             Console.WriteLine(date + junanro);
-
-            
-
-            Console.WriteLine("Haluaisin tarkistaa, onko junassa:\n1) lemmikki sallittu\n2) leikkipaikka \n3) ravintolavaunu\n4) inva-paikat ");
-            string inputChoice = Console.ReadLine();
 
 
             Console.WriteLine("Haluaisin tarkistaa, onko junassa:\n" +
@@ -275,43 +273,44 @@ ___________|||______________________________|______________/
             {
 
                 case "A":
-                    {
+                {
 
-                        var pet = vaunu.journeySections[0].wagons.Any(pet => pet.pet == true);
-                        Console.WriteLine(pet
-                            ? "Lemmikinne on tervetullut!"
-                            : "Valitettavasti lemmikit ei ole sallittuja.");
-                        Console.ReadLine();
-                        break;
-                    }
+                    var pet = vaunu.journeySections[0].wagons.Any(pet => pet.pet == true);
+                    Console.WriteLine(pet
+                        ? "Lemmikinne on tervetullut!"
+                        : "Valitettavasti lemmikit ei ole sallittuja.");
+                    PressKey();
+                    break;
+                }
                 case "B":
-                    {
-                        var playground = vaunu.journeySections[0].wagons.Any(playground => playground.playground == true);
-                        Console.WriteLine(playground
-                            ? "Leikkipaikka löytyy. Tervetuloa!"
-                            : "Valitettavasti tässä vuorossa ei ole leikkipaikkaa.");
-                        Console.ReadLine();
-                        break;
-                    }
+                {
+                    var playground = vaunu.journeySections[0].wagons.Any(playground => playground.playground == true);
+                    Console.WriteLine(playground
+                        ? "Leikkipaikka löytyy. Tervetuloa!"
+                        : "Valitettavasti tässä vuorossa ei ole leikkipaikkaa.");
+                    PressKey();
+                    break;
+                }
                 case "C":
-                    {
-                        var catering = vaunu.journeySections[0].wagons.Any(catering => catering.catering == true);
-                        Console.WriteLine(catering
-                            ? "Junassa on ravintolavaunu. Tervetuloa!"
-                            : "Valitettavasti tässä vuorossa ei ole ravintolavaunua.");
-                        Console.ReadLine();
-                        break;
-                    }
+                {
+                    var catering = vaunu.journeySections[0].wagons.Any(catering => catering.catering == true);
+                    Console.WriteLine(catering
+                        ? "Junassa on ravintolavaunu. Tervetuloa!"
+                        : "Valitettavasti tässä vuorossa ei ole ravintolavaunua.");
+                    PressKey();
+                    break;
+                }
                 case "D":
-                    {
-                        var disabled = vaunu.journeySections[0].wagons.Any(disabled => disabled.disabled == true);
-                        Console.WriteLine(disabled
-                            ? "Valitsemanne juna on esteetön. Tervetuloa!"
-                            : "Valitettavasti tämä vuoro ei ole esteetön.");
-                        Console.ReadLine();
-                        break;
-                    }
+                {
+                    var disabled = vaunu.journeySections[0].wagons.Any(disabled => disabled.disabled == true);
+                    Console.WriteLine(disabled
+                        ? "Valitsemanne juna on esteetön. Tervetuloa!"
+                        : "Valitettavasti tämä vuoro ei ole esteetön.");
+                    PressKey();
+                    break;
+                }
             }
+
         }
 
         //validates int input /Mari-Anne
