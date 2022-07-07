@@ -50,16 +50,16 @@ ___________|||______________________________|______________/
 
         }
 
-        static void Main(string[] args)
+        static async Task Main(string[] args)
         {
             bool valikko = true;
             while (valikko)
             {
-                valikko = MainMenu();
+                valikko = await MainMenu();
             }
         }
 
-        private static bool MainMenu()
+        private static async Task<bool> MainMenu()
         {
             //Johannan visuaalisuuskoodi
             Console.BackgroundColor = ConsoleColor.Red; //Akin toiveväri tähän
@@ -89,10 +89,10 @@ ___________|||______________________________|______________/
                     GetNextStation();
                     return true;
                 case "4":
-                    FindTrack();
+                    await FindTrack();
                     return true;
                 case "5":
-                    ExtraOptions();
+                    await ExtraOptions();
                     return true;
                 case "6":
                     return false;
@@ -119,8 +119,9 @@ ___________|||______________________________|______________/
                     Console.WriteLine("Minkä aseman tiedot haluat?");
                     asemaInput = Console.ReadLine();
                 }
-                catch
+                catch (Exception e)
                 {
+                    Console.WriteLine("Asemaa, junaa tai raidetta ei lötynyt. :(");
                     continue;
                 }
 
