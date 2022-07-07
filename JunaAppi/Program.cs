@@ -23,9 +23,7 @@ namespace JunaAppi
         //   //    /   //|   /   // |       // |    //    )  //    )    // 
 -------//---//----/---//-| -/---//__|------//__|---//____/--//____/----//--
       //   //    /   //  | /   //   | === //   |  //       //         //   
-_(___//___((____/___//___|/___//____|____//____|_//_______//_______ _//_ __";
-
-        private static readonly string AsciiArt2 = @"
+_(___//___((____/___//___|/___//____|____//____|_//_______//_______ _//_ __
 
   ___________   _______________________________________^__  _______________
  ___   ___ |||  ___   ___   ___    ___ ___  |   __  ,----\
@@ -48,7 +46,14 @@ ___________|||______________________________|______________/
             TrainTrackingNext[] trainTrackingList = await TrainsApi.GetLocation(lähtöPäivä, junanNumero); // Mari-Annen metodia hyödyntäen aseman 3-kirj. koodi aseman nimeksi
             string stationShortCode = (trainTrackingList[0].nextStation); //voisi vielä parannella sillä, että ei kaadu, vaikka syöttäisi junannumeron sellaisesta junasta, joka ei nyt kulussa
             Station seuraavaAsema = await GetStationByCodeAsync(stationShortCode);
-            Console.WriteLine($"Juna {junanNumero}, seuraava asema: {seuraavaAsema.stationName}.");
+            if (seuraavaAsema == null) //lisätty ehto, sillä ohjelma kaatuu jos syöttää junannumeron, joka ei ole juuri nyt kulussa
+            {
+                Console.WriteLine("Valitettavasti hakemallasi tiedolla ei löytynyt kulussa olevaa junaa.");
+            }
+            else
+            {
+                Console.WriteLine($"Juna {junanNumero}, seuraava asema: {seuraavaAsema.stationName}.");
+            }
             PressKey();
 
         }
@@ -70,7 +75,6 @@ ___________|||______________________________|______________/
             Console.ForegroundColor = ConsoleColor.White;
             Console.WriteLine(Environment.NewLine);
             Console.WriteLine(AsciiArt);
-            Console.WriteLine(AsciiArt2);
             Console.WriteLine(Environment.NewLine);
             Console.ForegroundColor = ConsoleColor.Yellow;
 
