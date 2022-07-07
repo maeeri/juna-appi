@@ -22,8 +22,8 @@ namespace JunaAppi
             return response;
               
         }
-        //johanna teki edellisen mallin mukaan
-        public static async Task<TrainTrackingNext[]> GetLocation(string lähtöpäivä, string junanNumero)
+        //johanna teki edellisen mallin mukaan 
+        public static async Task<TrainTrackingNext[]> GetLocation(string lähtöpäivä, string junanNumero) 
         {
 
             string urlParams = $"train-tracking/{lähtöpäivä}/{junanNumero}"; //muutettu 6.7. train-tracking/lähtöpäivä+junanNumero -hauksi
