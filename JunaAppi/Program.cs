@@ -127,7 +127,7 @@ ___________|||______________________________|______________/
             string asema = asemaInput[0].ToString().ToUpper() + asemaInput.Substring(1).ToLower();
             string junaHaku = $"{paiva.Date:yyyy-MM-dd}/{junaNumero}";
             TrainByDate[] juna = await TrainsApi.GetTrainByNumberAsync(junaHaku);
-            var asemaOlio = await TrainsApi.GetStationByNameAsync(asema);
+            var asemaOlio = await GetStationByNameAsync(asema);
             var asemanKoodi = asemaOlio.stationShortCode;
 
             string raide = await StationTrack(juna, asemanKoodi);
@@ -157,6 +157,42 @@ ___________|||______________________________|______________/
             }
 
             return raide;
+        }
+
+        //Mari-Annen metodi aseman hakuun asemakoodin perusteella
+        public static async Task<Station> GetStationByCodeAsync(string stationShortCode)
+        {
+            Station[] asemat = await TrainsApi.GetStations();
+            Station response = asemat.FirstOrDefault(x => x.stationShortCode.Equals(stationShortCode, StringComparison.OrdinalIgnoreCase));
+
+            //jos asema ei ole null, palautetaan Station-olio ja jos on, palautetaan oletusarvo
+            return (response != null ? response : default);
+        }
+
+        //metodi aseman hakuun nimen perusteella /Mari-Anne
+        public static async Task<Station> GetStationByNameAsync(string stationName)
+        {
+            Station[] asemat = await TrainsApi.GetStations();
+            Station response;
+            try
+            {
+                response = asemat.FirstOrDefault(x =>
+                    x.stationName.Equals(stationName, StringComparison.OrdinalIgnoreCase));
+                if (response != null)
+                    return response;
+                else
+                {
+                    stationName += " asema";
+                    response = asemat.FirstOrDefault(x =>
+                        x.stationName.Equals(stationName, StringComparison.OrdinalIgnoreCase));
+                    return response;
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Asemaa ei löytynyt");
+                return default;
+            }
         }
 
         private static async Task MisMih()
