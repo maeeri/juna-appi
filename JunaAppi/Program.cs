@@ -48,20 +48,18 @@ ___________|||______________________________|______________/
             Station seuraavaAsema = await GetStationByCodeAsync(stationShortCode);
             Console.WriteLine($"Juna {junanNumero}, seuraava asema: {seuraavaAsema.stationName}.");
 
-            
-
         }
 
-        static async Task Main(string[] args)
+        static void Main(string[] args)
         {
             bool valikko = true;
             while (valikko)
             {
-                valikko = await MainMenu();
+                valikko = MainMenu();
             }
         }
 
-        private static async Task<bool> MainMenu()
+        private static bool MainMenu()
         {
             //Johannan visuaalisuuskoodi
             Console.BackgroundColor = ConsoleColor.Red; //Akin toiveväri tähän
@@ -80,7 +78,6 @@ ___________|||______________________________|______________/
                               "4) Hae raide, jolla juna pysähtyy\n" +
                               "5) Junan Palvelut\n" +
                               "6) Poistu");
-
             switch (Console.ReadLine())
             {
                 case "1":
@@ -95,15 +92,13 @@ ___________|||______________________________|______________/
                     FindTrack();
                     return true;
                 case "5":
-                    await ExtraOptions();
+                    ExtraOptions();
                     return true;
                 case "6":
                     return false;
                 default:
                     return true;
             }
-
-           
         }
 
         //Mari-Annen metodi junalaiturien löytämiseen
@@ -225,11 +220,11 @@ ___________|||______________________________|______________/
 
                     else
 
-                        Console.WriteLine("\tReittisi tiedot:");
+                    Console.WriteLine("\tReittisi tiedot:");
                     Console.WriteLine("\tLähtö asema: " + lahto);
                     Console.WriteLine("\tSaapuminen asemalle: " + saapuminen);
                     Rejtti(reitti);
-
+                    
                 }
                 catch (FormatException)
                 {
@@ -249,6 +244,7 @@ ___________|||______________________________|______________/
             Console.WriteLine("\nVaihtoehtosi:\n1) Mistä-Mihin\n2) Ajoissa\n3) Seuraava Pysäkki\n4) Vaihtoraide\n5) Junan Palvelut\n6) Poistu");
         }
 
+
         private static async Task ExtraOptions()
         {
             //var response = APIHelpers.RunAsync<Vaunu>(url, urlParams);
@@ -261,76 +257,42 @@ ___________|||______________________________|______________/
 
             Vaunu vaunu = await TrainsApi.HaeJunanPalvelut(date, junanro);
 
-            Console.WriteLine(date + " " + junanro);
+            Console.WriteLine(date + junanro);
 
-            //var pet = vaunu.journeySections[0].wagons.Any(pet => pet.pet == true);
-            //Console.WriteLine(pet);
+            var pet = vaunu.journeySections[0].wagons.Any(pet => pet.pet == true);
+            Console.WriteLine(pet);
 
+            /*Console.WriteLine("Haluaisin tarkistaa, onko junassa:\n1) lemmikki sallittu\n2) leikkipaikka \n3) ravintolavaunu\n4) inva-paikat ");
+            string inputChoice = Console.ReadLine();
 
-            Console.WriteLine("Haluaisin tarkistaa, onko junassa:\n" +
-                              "A) lemmikki sallittu\n" +
-                              "B) leikkipaikka\n" +
-                              "C) ravintolavaunu\n" +
-                              "D) esteettömyys\n");
-
-
-            switch (Console.ReadLine())
+            switch (inputChoice)
             {
-                    
-                case "A":
+                case "1":
                 {
-                  
                     var pet = vaunu.journeySections[0].wagons.Any(pet => pet.pet == true);
-
-                    Console.WriteLine(pet
-                        ? "Lemmikinne on tervetullut!"
-                        : "Valitettavasti lemmikit ei ole sallittuja.");
-
-                    Console.ReadLine();
+                    Console.WriteLine(pet);
                     break;
-
                 }
-
-                case "B":
+                case "2":
                 {
-                    var playground = vaunu.journeySections[0].wagons.Any(playground => playground.playground == true);
-
-
-                    Console.WriteLine(playground
-                        ? "Leikkipaikka löytyy. Tervetuloa!"
-                        : "Valitettavasti tässä vuorossa ei ole leikkipaikkaa.");
-
-                    Console.ReadLine();
+                    var pet = vaunu.journeySections[0].wagons.Any(pet => pet.pet == true);
+                    Console.WriteLine(pet);
                     break;
                 }
-                case "C":
+                case "3":
                 {
-                    var catering = vaunu.journeySections[0].wagons.Any(catering => catering.catering == true);
-
-                    Console.WriteLine(catering
-                        ? "Junassa on ravintolavaunu. Tervetuloa!"
-                        : "Valitettavasti tässä vuorossa ei ole ravintolavaunua.");
-
-                        Console.ReadLine();
+                    var pet = vaunu.journeySections[0].wagons.Any(pet => pet.pet == true);
+                    Console.WriteLine(pet);
                     break;
                 }
-                case "D":
+                case "4":
                 {
-                    var disabled = vaunu.journeySections[0].wagons.Any(disabled => disabled.disabled == true);
-
-                    Console.WriteLine(disabled
-                        ? "Valitsemanne juna on esteetön. Tervetuloa!"
-                        : "Valitettavasti tämä vuoro ei ole esteetön.");
-
-                        Console.ReadLine();
-
+                    var pet = vaunu.journeySections[0].wagons.Any(pet => pet.pet == true);
+                    Console.WriteLine(pet);
                     break;
-                }
-
-
-            }
- 
+                }*/
         }
+
         //validates int input /Mari-Anne
         public static int ValidateIntInput(string input)
         {
